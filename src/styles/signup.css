@@ -1,0 +1,45 @@
+/* Parent container */
+#signup {
+    display: flex;
+    justify-content: center;
+    align-items: start;     /* Center vertically if you want */
+    width: 100%;
+    height: 100vh;           /* Full height of viewport */
+    flex-wrap: wrap;         /* Allow wrapping on small screens */
+    gap: 20px;               /* Space between items */
+    /* background-color: #f9f9f9; Optional background */
+  }
+  
+  /* Individual login types */
+  .login-type {
+    width: 8em;
+    height: 7em;
+    margin-top: 1.5em;
+    color: white;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-type Button{
+    width: 100%;
+    height: 100%;
+    border: 2px solid greenyellow;
+    color: black;
+    font-weight: 800;
+  }
+
+  .login-type Button:hover{
+    background-color: greenyellow;
+  }
+  
+  /* Responsive: Stack vertically on narrow screens */
+  @media (max-width: 600px) {
+    .login-type {
+      width: 80%;
+      font-size: 1rem;
+    }
+  }
+  
