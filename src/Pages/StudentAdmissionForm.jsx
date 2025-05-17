@@ -7,9 +7,10 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import PersonalDetails from '../Components/admission_Form/personalDetails';
-import AddressForm from '../Components/admission_Form/AddressForm';
-import StudentEducationForm from '../Components/admission_Form/StudentEducationForm';
+import PersonalDetails from '../Components/Students/personalDetails';
+import AddressForm from '../Components/Students/AddressForm';
+import EducationForm from '../Components/Students/EducationForm';
+
 
 const steps = ['Personal Details', 'Address Details', 'Education'];
 
@@ -141,7 +142,7 @@ export default function StudentAdmissionForm() {
             case 1:
                 return <AddressForm />
             case 2:
-                return <StudentEducationForm />             
+                return <EducationForm />             
             default:
                 return 'Unknown Step';
         }
