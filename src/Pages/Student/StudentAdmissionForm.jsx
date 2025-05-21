@@ -7,9 +7,9 @@ import {
     Button,
     Typography,
 } from '@mui/material';
-import PersonalDetails from '../Components/Students/personalDetails';
-import AddressForm from '../Components/Students/AddressForm';
-import EducationForm from '../Components/Students/EducationForm';
+import PersonalDetails from '../../Components/Students/personalDetails';
+import AddressForm from '../../Components/Students/AddressForm';
+import EducationForm from '../../Components/Students/EducationForm';
 
 
 const steps = ['Personal Details', 'Address Details', 'Education'];

@@ -13,6 +13,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
@@ -45,7 +46,7 @@ export default function Sidebar() {
 
             {/* Dashboard (no submenu) */}
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton component={Link} to='/student-dashboard'>
                 <ListItemIcon><InboxIcon /></ListItemIcon>
                 <ListItemText primary="Dashboard" />
               </ListItemButton>
@@ -62,7 +63,7 @@ export default function Sidebar() {
             <Collapse in={admissionOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton>
+                  <ListItemButton component={Link} to="/student-information" >
                     <ListItemText primary="Student Information" />
                   </ListItemButton>
                 </ListItem>
@@ -80,7 +81,7 @@ export default function Sidebar() {
             <Collapse in={attendanceOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton>
+                  <ListItemButton component={Link} to='/attendence'>
                     <ListItemText primary="My Attendance" />
                   </ListItemButton>
                 </ListItem>
@@ -143,7 +144,7 @@ export default function Sidebar() {
             <Collapse in={financeOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton>
+                  <ListItemButton component={Link} to='/student-fees-details' >
                     <ListItemText primary="Finance Details" />
                   </ListItemButton>
                 </ListItem>

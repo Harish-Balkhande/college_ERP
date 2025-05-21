@@ -4,10 +4,13 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../src/Pages/Home';
 import Signup from './Pages/Signup';
-import StudentAdmissionForm from './Pages/StudentAdmissionForm';
-import Attendanence from './Pages/Attendanence';
-import Dashboard from './Components/Students/Dashboard';
+import StudentAdmissionForm from './Pages/Student/StudentAdmissionForm';
+import Dashboard from './Pages/Student/Dashboard';
 import Layout from './Components/Layout/Layout';
+import AttendanceUI from './Pages/Student/Attendanence';
+import StudentFeesDetails from './Pages/Student/StudentFeesDetails';
+import StudentInformation from './Pages/Student/StudentInformation';
+
 
 function App() {
   return (
@@ -18,9 +21,10 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/admission-form' element={<StudentAdmissionForm />} />
           {/* Students path */}
-          <Route path='/attendence' element={<Attendanence />} />
+          <Route path='/attendence' element={<AttendanceUI />} />
           <Route path='/student-dashboard' element={<Dashboard />} />
-
+          <Route path='/student-fees-details' element={<StudentFeesDetails />} />
+          <Route path='/student-information' element={<StudentInformation />} />
         </Routes>
       </Layout>
     </>

@@ -233,7 +233,7 @@ export default function Dashboard() {
                 <Typography variant="h6" gutterBottom>
                     Course Components
                 </Typography>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} >
                     <Table>
                         <TableHead>
                             <TableRow>
