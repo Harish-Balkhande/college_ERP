@@ -1,166 +1,256 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaUserGraduate,
+  FaCalendarCheck,
+  FaPenFancy,
+  FaMoneyBillWave,
+  FaBookOpen,
+} from "react-icons/fa";
 
-export default function Sidebar() {
-  const [open, setOpen] = React.useState(false);
+function Sidebar() {
+  const navigate = useNavigate();
 
-  // Submenu states
-  const [examOpen, setExamOpen] = React.useState(false);
-  const [financeOpen, setFinanceOpen] = React.useState(false);
-  const [admissionOpen, setAdmissionOpen] = React.useState(false);
-  const [attendanceOpen, setAttendanceOpen] = React.useState(false);
-  const [courseOpen, setCourseOpen] = React.useState(false);
+  const [showExamSubmenu, setShowExamSubmenu] = useState(false);
+  const [showAttendanceSubmenu, setShowAttendanceSubmenu] = useState(false);
+  const [showAdmissionSubmenu, setShowAdmissionSubmenu] = useState(false);
+  const [showFinanceSubmenu, setShowFinanceSubmenu] = useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+  // Close all submenus
+  const closeAllSubmenus = () => {
+    setShowExamSubmenu(false);
+    setShowAttendanceSubmenu(false);
+    setShowAdmissionSubmenu(false);
+    setShowFinanceSubmenu(false);
   };
 
   return (
-    <div>
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        onClick={toggleDrawer(true)}
-        sx={{ m: 1 }}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Drawer open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250 }} role="presentation">
-          <List>
+    <div style={{ display: "flex" }}>
+      {/* Sidebar */}
+      <div style={styles.sidebar}>
+        
 
-            {/* Dashboard (no submenu) */}
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to='/student-dashboard'>
-                <ListItemIcon><InboxIcon /></ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </ListItem>
+        <ul style={styles.menuList}>
+          {/* Dashboard */}
+          <li
+            style={styles.menuItem}
+           onClick={()=>navigate("student-dashboard")}
+          >
+            <FaUserGraduate style={styles.icon} /> Dashboard
+       
+          </li>
 
-            {/* Admission with submenu */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setAdmissionOpen(!admissionOpen)}>
-                <ListItemIcon><InboxIcon /></ListItemIcon>
-                <ListItemText primary="Admission" />
-                {admissionOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={admissionOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton component={Link} to="/student-information" >
-                    <ListItemText primary="Student Information" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Collapse>
+          {/* Admission */}
+          <li
+            style={styles.menuItem}
+            onClick={() => {
+              setShowAdmissionSubmenu(!showAdmissionSubmenu);
+              closeAllSubmenus();
+              setShowAdmissionSubmenu(!showAdmissionSubmenu);
+            }}
+          >
+            <FaUserGraduate style={styles.icon} /> Admission
+            <span style={styles.triangle}>
+              {showAdmissionSubmenu ? "▼" : "▶"}
+            </span>
+          </li>
 
-            {/* Attendance with submenu */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setAttendanceOpen(!attendanceOpen)}>
-                <ListItemIcon><InboxIcon /></ListItemIcon>
-                <ListItemText primary="Attendance" />
-                {attendanceOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={attendanceOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton component={Link} to='/attendence'>
-                    <ListItemText primary="My Attendance" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Collapse>
+          {/* Attendance */}
+          <li
+            style={styles.menuItem}
+            onClick={() => {
+              closeAllSubmenus();
+              setShowAttendanceSubmenu(!showAttendanceSubmenu);
+            }}
+          >
+            <FaCalendarCheck style={styles.icon} /> Attendance
+            <span style={styles.triangle}>
+              {showAttendanceSubmenu ? "▼" : "▶"}
+            </span>
+          </li>
 
-            {/* Course with submenu */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setCourseOpen(!courseOpen)}>
-                <ListItemIcon><InboxIcon /></ListItemIcon>
-                <ListItemText primary="Course" />
-                {courseOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={courseOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton>
-                    <ListItemText primary="My Courses" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Collapse>
+          {/* Exam */}
+          <li
+            style={styles.menuItem}
+            onClick={() => {
+              closeAllSubmenus();
+              setShowExamSubmenu(!showExamSubmenu);
+            }}
+          >
+            <FaPenFancy style={styles.icon} /> Exam
+            <span style={styles.triangle}>
+              {showExamSubmenu ? "▼" : "▶"}
+            </span>
+          </li>
 
-            {/* Exam with submenu */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setExamOpen(!examOpen)}>
-                <ListItemIcon><MailIcon /></ListItemIcon>
-                <ListItemText primary="Exam" />
-                {examOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={examOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {[
-                  'Exam Schedule',
-                  'Hall Ticket',
-                  'Score Card',
-                  'Retest Exam Slip',
-                  'Exam Form',
-                  'Download Exam Form',
-                ].map((text) => (
-                  <ListItem key={text} disablePadding sx={{ pl: 4 }}>
-                    <ListItemButton>
-                      <ListItemText primary={text} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
+          {/* Finance */}
+          <li
+            style={styles.menuItem}
+            onClick={() => {
+              closeAllSubmenus();
+              setShowFinanceSubmenu(!showFinanceSubmenu);
+            }}
+          >
+            <FaMoneyBillWave style={styles.icon} /> Finance
+            <span style={styles.triangle}>
+              {showFinanceSubmenu ? "▼" : "▶"}
+            </span>
+          </li>
 
-            {/* Finance with submenu */}
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => setFinanceOpen(!financeOpen)}>
-                <ListItemIcon><InboxIcon /></ListItemIcon>
-                <ListItemText primary="Finance" />
-                {financeOpen ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-            </ListItem>
-            <Collapse in={financeOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton component={Link} to='/student-fees-details' >
-                    <ListItemText primary="Finance Details" />
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Collapse>
+          {/* My Registered Courses */}
+          <li
+            style={{ ...styles.menuItem, fontWeight: "bold" }}
+            onClick={() => {
+              closeAllSubmenus();
+              navigate("/registered-courses");
+            }}
+          >
+            <FaBookOpen style={styles.icon} /> My Registered Courses
+          </li>
+        </ul>
+      </div>
 
-            {/* Registered Courses (no submenu) */}
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon><MailIcon /></ListItemIcon>
-                <ListItemText primary="Registered Courses" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+      {/* Admission Submenu */}
+      {showAdmissionSubmenu && (
+        <div style={styles.submenu}>
+          <ul style={styles.subMenuList}>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("admission-form")}
+            >
+              Student Admission
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Attendance Submenu */}
+      {showAttendanceSubmenu && (
+        <div style={styles.submenu}>
+          <ul style={styles.subMenuList}>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("attendence")}
+            >
+              My Attendance
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Exam Submenu */}
+      {showExamSubmenu && (
+        <div style={styles.submenu}>
+          <ul style={styles.subMenuList}>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/schedule")}
+            >
+              Exam Schedule
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/hall-tickets")}
+            >
+              My Hall Tickets
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/exam-score")}
+            >
+              Exam Score
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/score-card")}
+            >
+              Score Card
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/retest-slip")}
+            >
+              My Retest Exam Slip
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/my-exam-form")}
+            >
+              My Exam Form
+            </li>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/download-exam-form")}
+            >
+              Download Exam Form
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Finance Submenu */}
+      {showFinanceSubmenu && (
+        <div style={styles.submenu}>
+          <ul style={styles.subMenuList}>
+            <li
+              style={styles.subMenuItem}
+              onClick={() => navigate("/student-fee-details")}
+            >
+              Student Fee Details
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
+
+// Styles
+const styles = {
+  sidebar: {
+    width: "220px",
+    background: "black",
+    padding: "20px",
+    height: "100vh",
+    borderRight: "1px solid #ccc",
+    color: "white",
+  },
+  menuList: {
+    listStyle: "none",
+    padding: 0,
+  },
+  menuItem: {
+    cursor: "pointer",
+    padding: "10px 0",
+    display: "flex",
+    alignItems: "center",
+    color: "white",
+  },
+  icon: {
+    marginRight: "10px",
+  },
+  triangle: {
+    marginLeft: "auto",
+    fontSize: "12px",
+  },
+  submenu: {
+    width: "180px",
+    backgroundColor: "#708090",
+    height: "100vh",
+    color: "white",
+    borderLeft: "1px solid #ccc",
+  },
+  subMenuList: {
+    listStyle: "none",
+    padding: "20px",
+    margin: 0,
+  },
+  subMenuItem: {
+    padding: "10px 8px",
+    cursor: "pointer",
+    color: "white",
+    borderBottom: "1px solid #aaa",
+  },
+};
+
+export default Sidebar;

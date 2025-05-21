@@ -31,7 +31,6 @@ function Topbar() {
     },
     welcomeText: {
       fontWeight: "500",
-      color: "#000", // change to any color you like, e.g. black
     },
     profilePic: {
       height: "40px",

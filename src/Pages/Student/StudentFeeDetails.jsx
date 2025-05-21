@@ -188,7 +188,7 @@ const data = {
   },
 };
 
-export default function StudentFeesDetails() {
+export default function StudentFeeDetails() {
   const [tabValue, setTabValue] = useState({});
   const [expandedYears, setExpandedYears] = useState({});
 
@@ -326,7 +326,7 @@ export default function StudentFeesDetails() {
   return (
     <Box p={2}>
       <Typography variant="h5" gutterBottom sx={{ fontFamily: 'Lobster, sans-serif', color: '#18a1d9' }}>
-        Student Fees Details
+        Student Fee Details
       </Typography>
       <Card variant="outlined">
         <CardContent>
