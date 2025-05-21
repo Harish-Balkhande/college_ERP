@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaUserGraduate,
@@ -8,6 +8,8 @@ import {
   FaBookOpen,
 } from "react-icons/fa";
 
+import "../../styles/sidebar.css"; // your CSS file path
+
 function Sidebar() {
   const navigate = useNavigate();
 
@@ -15,6 +17,9 @@ function Sidebar() {
   const [showAttendanceSubmenu, setShowAttendanceSubmenu] = useState(false);
   const [showAdmissionSubmenu, setShowAdmissionSubmenu] = useState(false);
   const [showFinanceSubmenu, setShowFinanceSubmenu] = useState(false);
+
+  // Ref wrapping both sidebar and submenu
+  const wrapperRef = useRef(null);
 
   // Close all submenus
   const closeAllSubmenus = () => {
@@ -24,98 +29,103 @@ function Sidebar() {
     setShowFinanceSubmenu(false);
   };
 
-  return (
-    <div style={{ display: "flex" }}>
-      {/* Sidebar */}
-      <div style={styles.sidebar}>
-        
+  // Close submenus on click outside sidebar+submenu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        closeAllSubmenus();
+      }
+    };
 
-        <ul style={styles.menuList}>
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="sidebar-wrapper" ref={wrapperRef}>
+      {/* Sidebar */}
+      <div className="sidebar">
+        <ul className="menu-list">
           {/* Dashboard */}
           <li
-            style={styles.menuItem}
-           onClick={()=>navigate("student-dashboard")}
+            className="menu-item"
+            onClick={() => {
+              closeAllSubmenus();
+              navigate("student-dashboard");
+            }}
           >
-            <FaUserGraduate style={styles.icon} /> Dashboard
-       
+            <FaUserGraduate className="icon" /> Dashboard
           </li>
 
           {/* Admission */}
           <li
-            style={styles.menuItem}
+            className="menu-item"
             onClick={() => {
-              setShowAdmissionSubmenu(!showAdmissionSubmenu);
               closeAllSubmenus();
               setShowAdmissionSubmenu(!showAdmissionSubmenu);
             }}
           >
-            <FaUserGraduate style={styles.icon} /> Admission
-            <span style={styles.triangle}>
-              {showAdmissionSubmenu ? "▼" : "▶"}
-            </span>
+            <FaUserGraduate className="icon" /> Admission
+            <span className="triangle">{showAdmissionSubmenu ? "▼" : "▶"}</span>
           </li>
 
           {/* Attendance */}
           <li
-            style={styles.menuItem}
+            className="menu-item"
             onClick={() => {
               closeAllSubmenus();
               setShowAttendanceSubmenu(!showAttendanceSubmenu);
             }}
           >
-            <FaCalendarCheck style={styles.icon} /> Attendance
-            <span style={styles.triangle}>
-              {showAttendanceSubmenu ? "▼" : "▶"}
-            </span>
+            <FaCalendarCheck className="icon" /> Attendance
+            <span className="triangle">{showAttendanceSubmenu ? "▼" : "▶"}</span>
           </li>
 
           {/* Exam */}
           <li
-            style={styles.menuItem}
+            className="menu-item"
             onClick={() => {
               closeAllSubmenus();
               setShowExamSubmenu(!showExamSubmenu);
             }}
           >
-            <FaPenFancy style={styles.icon} /> Exam
-            <span style={styles.triangle}>
-              {showExamSubmenu ? "▼" : "▶"}
-            </span>
+            <FaPenFancy className="icon" /> Exam
+            <span className="triangle">{showExamSubmenu ? "▼" : "▶"}</span>
           </li>
 
           {/* Finance */}
           <li
-            style={styles.menuItem}
+            className="menu-item"
             onClick={() => {
               closeAllSubmenus();
               setShowFinanceSubmenu(!showFinanceSubmenu);
             }}
           >
-            <FaMoneyBillWave style={styles.icon} /> Finance
-            <span style={styles.triangle}>
-              {showFinanceSubmenu ? "▼" : "▶"}
-            </span>
+            <FaMoneyBillWave className="icon" /> Finance
+            <span className="triangle">{showFinanceSubmenu ? "▼" : "▶"}</span>
           </li>
 
           {/* My Registered Courses */}
           <li
-            style={{ ...styles.menuItem, fontWeight: "bold" }}
+            className="menu-item bold"
             onClick={() => {
               closeAllSubmenus();
               navigate("/registered-courses");
             }}
           >
-            <FaBookOpen style={styles.icon} /> My Registered Courses
+            <FaBookOpen className="icon" /> My Registered Courses
           </li>
         </ul>
       </div>
 
-      {/* Admission Submenu */}
+      {/* Submenus */}
       {showAdmissionSubmenu && (
-        <div style={styles.submenu}>
-          <ul style={styles.subMenuList}>
+        <div className="submenu">
+          <ul className="submenu-list">
             <li
-              style={styles.subMenuItem}
+              className="submenu-item"
               onClick={() => navigate("admission-form")}
             >
               Student Admission
@@ -124,12 +134,11 @@ function Sidebar() {
         </div>
       )}
 
-      {/* Attendance Submenu */}
       {showAttendanceSubmenu && (
-        <div style={styles.submenu}>
-          <ul style={styles.subMenuList}>
+        <div className="submenu">
+          <ul className="submenu-list">
             <li
-              style={styles.subMenuItem}
+              className="submenu-item"
               onClick={() => navigate("attendence")}
             >
               My Attendance
@@ -138,64 +147,38 @@ function Sidebar() {
         </div>
       )}
 
-      {/* Exam Submenu */}
       {showExamSubmenu && (
-        <div style={styles.submenu}>
-          <ul style={styles.subMenuList}>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/schedule")}
-            >
+        <div className="submenu">
+          <ul className="submenu-list">
+            <li className="submenu-item" onClick={() => navigate("/schedule")}>
               Exam Schedule
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/hall-tickets")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/hall-tickets")}>
               My Hall Tickets
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/exam-score")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/exam-score")}>
               Exam Score
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/score-card")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/score-card")}>
               Score Card
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/retest-slip")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/retest-slip")}>
               My Retest Exam Slip
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/my-exam-form")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/my-exam-form")}>
               My Exam Form
             </li>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/download-exam-form")}
-            >
+            <li className="submenu-item" onClick={() => navigate("/download-exam-form")}>
               Download Exam Form
             </li>
           </ul>
         </div>
       )}
 
-      {/* Finance Submenu */}
       {showFinanceSubmenu && (
-        <div style={styles.submenu}>
-          <ul style={styles.subMenuList}>
-            <li
-              style={styles.subMenuItem}
-              onClick={() => navigate("/student-fee-details")}
-            >
+        <div className="submenu">
+          <ul className="submenu-list">
+            <li className="submenu-item" onClick={() => navigate("/student-fee-details")}>
               Student Fee Details
             </li>
           </ul>
@@ -204,53 +187,5 @@ function Sidebar() {
     </div>
   );
 }
-
-// Styles
-const styles = {
-  sidebar: {
-    width: "220px",
-    background: "black",
-    padding: "20px",
-    height: "100vh",
-    borderRight: "1px solid #ccc",
-    color: "white",
-  },
-  menuList: {
-    listStyle: "none",
-    padding: 0,
-  },
-  menuItem: {
-    cursor: "pointer",
-    padding: "10px 0",
-    display: "flex",
-    alignItems: "center",
-    color: "white",
-  },
-  icon: {
-    marginRight: "10px",
-  },
-  triangle: {
-    marginLeft: "auto",
-    fontSize: "12px",
-  },
-  submenu: {
-    width: "180px",
-    backgroundColor: "#708090",
-    height: "100vh",
-    color: "white",
-    borderLeft: "1px solid #ccc",
-  },
-  subMenuList: {
-    listStyle: "none",
-    padding: "20px",
-    margin: 0,
-  },
-  subMenuItem: {
-    padding: "10px 8px",
-    cursor: "pointer",
-    color: "white",
-    borderBottom: "1px solid #aaa",
-  },
-};
 
 export default Sidebar;

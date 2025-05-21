@@ -3,11 +3,17 @@ import React from "react";
 function Topbar() {
   const styles = {
     topbar: {
+      position: "fixed", // Make it sticky
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 1100,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      backgroundColor: "#d3d3d3", // grey background
+      backgroundColor: "#1976d2", // grey background
       padding: "10px 20px",
+      
       height: "60px",
       boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
       color: "white",

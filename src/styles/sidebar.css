@@ -1,0 +1,69 @@
+.sidebar {
+  width: 220px;
+  background: black;
+  padding: 20px;
+  height: 100vh;
+  border-right: 1px solid #ccc;
+  color: white;
+  position: fixed;
+  top: 80px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.submenu {
+  width: 180px;
+  background-color: #5e6063;
+  height: 100vh;
+  padding: 7px;
+  cursor: pointer;
+  color: white;
+  border-left: 1px solid #ccc;
+  position: fixed;
+  top: 80px;
+  left: 250px; /* right next to sidebar */
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.triangle {
+  margin-left: auto;
+  font-size: 12px;
+}
+
+.submenu-list {
+  list-style: none;
+  padding: 20px;
+  margin: 0;
+}
+
+.submenu-item {
+  padding: 7px 8px;
+  cursor: pointer;
+  color: white;
+  
+}
+
+/* Add padding-left/margin-left to your main content container */
+.main-content {
+  margin-left: 220px; /* Same width as sidebar */
+  padding: 20px;
+}
