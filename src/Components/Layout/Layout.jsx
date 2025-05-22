@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 export default function Layout({children}) {
   return (
     <div>
-        <Header />
+        {/* <Header /> */}
         <div>
             <Sidebar />
             <main>{children}</main>
