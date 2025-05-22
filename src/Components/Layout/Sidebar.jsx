@@ -166,8 +166,9 @@ export default function Sidebar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Student Dashboard
+                        Logo
                     </Typography>
+                    
                 </Toolbar>
             </AppBar>
             <Drawer

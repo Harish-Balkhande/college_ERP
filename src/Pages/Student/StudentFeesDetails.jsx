@@ -335,8 +335,8 @@ export default function StudentFeesDetails() {
               <table>
                 <tbody>
                   <tr><td><strong>Name</strong></td><td>: {data.studentInfo.name}</td></tr>
-                  <tr><td><strong>Reg No</strong></td> <td>: {data.studentInfo.regNumber}</td></tr>
-                  <tr><td><strong>Batch</strong></td> <td>: {data.studentInfo.batch}</td></tr>
+                  <tr><td><strong>Reg No</strong></td><td>: {data.studentInfo.regNumber}</td></tr>
+                  <tr><td><strong>Batch</strong></td><td>: {data.studentInfo.batch}</td></tr>
                 </tbody>
               </table>
             </Grid>
