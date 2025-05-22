@@ -17,7 +17,10 @@ export default function Home() {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
+    <Grid container justifyContent="center" alignItems="center" style={{ 
+      minHeight: '100vh',
+       
+      }}>
       <Grid item xs={10} sm={6} md={4}>
         <Paper elevation={3} sx={{ padding: 4, borderRadius: 2 }}>
           <Typography variant="h5" gutterBottom align="center">

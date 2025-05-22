@@ -14,7 +14,9 @@ export default function Layout() {
   const showAnySubmenu = showExamSubmenu || showAttendanceSubmenu || showAdmissionSubmenu || showFinanceSubmenu;
 
   return (
-    <div>
+    <div style={{
+      position:"absolute", top:'60px'
+    }}>
       <Header />
       <div style={{ display: 'flex' }}>
         <Sidebar
@@ -30,6 +32,7 @@ export default function Layout() {
         <main
           style={{
             flex: 1,
+            width:'100%',
             padding: '20px',
             marginLeft: showAnySubmenu ? 400 : 250,
             transition: 'margin-left 0.3s ease',
