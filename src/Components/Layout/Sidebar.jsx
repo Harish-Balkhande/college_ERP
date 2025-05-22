@@ -9,10 +9,14 @@ import {
 
 import {
     Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
-    Inbox as InboxIcon, ChevronRight as ChevronRightIcon
+    Inbox as InboxIcon, School as SchoolIcon,
+    CalendarToday as CalendarTodayIcon, Book as BookIcon,
+    Assignment as AssignmentIcon, AccountBalanceWallet as AccountBalanceWalletIcon,
+    Dashboard as DashboardIcon, ChevronRight as ChevronRightIcon
 } from '@mui/icons-material';
 
 import { Link } from 'react-router-dom';
+import Layout from './Layout';
 
 const drawerWidth = 240;
 
@@ -80,7 +84,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function Sidebar2() {
+export default function Sidebar() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [hoveredMenu, setHoveredMenu] = React.useState(null);
@@ -100,17 +104,25 @@ export default function Sidebar2() {
             { label: 'Faculty', to: '/faculty' },
         ],
         exam: [
-            { label: 'Exam Schedule' },
-            { label: 'Hall Ticket' },
-            { label: 'Score Card' },
-            { label: 'Retest Exam Slip' },
-            { label: 'Exam Form' },
-            { label: 'Download Exam Form' },
+            { label: 'Exam Schedule',to: '/schedule' },
+            { label: 'Hall Ticket', to:'/hall-tickets' },
+            { label: 'Score Card', to:'/score-card' },
+            { label: 'Retest Exam Slip', to:'/retest-slip' },
+            { label: 'Exam Form', to:'/my-exam-form' },
+            { label: 'Download Exam Form', to:'/download-exam-form' },
         ],
         finance: [
-            { label: 'Fee', to: '/fee' },
+            { label: 'Fee', to: '/student-fees-details' },
             { label: 'Payment', to: '/payment' },
         ],
+    };
+
+    const menuIcons = {
+        admission: <SchoolIcon />,
+        attendance: <CalendarTodayIcon />,
+        course: <BookIcon />,
+        exam: <AssignmentIcon />,
+        finance: <AccountBalanceWalletIcon />,
     };
 
     const handleClickOutside = (event) => {
@@ -177,7 +189,7 @@ export default function Sidebar2() {
                             to="/student-dashboard"
                             onMouseEnter={(e) => handleMouseEnter(e, null)}
                         >
-                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemIcon><DashboardIcon /></ListItemIcon>
                             <ListItemText primary="Dashboard" />
                         </ListItemButton>
                     </ListItem>
@@ -189,7 +201,7 @@ export default function Sidebar2() {
                             onMouseEnter={(e) => handleMouseEnter(e, key)}
                         >
                             <ListItemButton>
-                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemIcon>{menuIcons[key]}</ListItemIcon>
                                 <ListItemText primary={key.charAt(0).toUpperCase() + key.slice(1)} />
                                 <ChevronRightIcon />
                             </ListItemButton>
@@ -233,7 +245,9 @@ export default function Sidebar2() {
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
+                
             </Box>
         </Box>
     );
+
 }

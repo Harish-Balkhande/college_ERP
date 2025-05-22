@@ -9,7 +9,10 @@ import {
 
 import {
     Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
-    Inbox as InboxIcon, ChevronRight as ChevronRightIcon
+    Inbox as InboxIcon, School as SchoolIcon,
+    CalendarToday as CalendarTodayIcon, Book as BookIcon,
+    Assignment as AssignmentIcon, AccountBalanceWallet as AccountBalanceWalletIcon,
+    Dashboard as DashboardIcon, ChevronRight as ChevronRightIcon
 } from '@mui/icons-material';
 
 import { Link } from 'react-router-dom';
@@ -113,6 +116,14 @@ export default function Sidebar2() {
         ],
     };
 
+    const menuIcons = {
+        admission: <SchoolIcon />,
+        attendance: <CalendarTodayIcon />,
+        course: <BookIcon />,
+        exam: <AssignmentIcon />,
+        finance: <AccountBalanceWalletIcon />,
+    };
+
     const handleClickOutside = (event) => {
         if (
             (!drawerRef.current || !drawerRef.current.contains(event.target)) &&
@@ -177,7 +188,7 @@ export default function Sidebar2() {
                             to="/student-dashboard"
                             onMouseEnter={(e) => handleMouseEnter(e, null)}
                         >
-                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemIcon><DashboardIcon /></ListItemIcon>
                             <ListItemText primary="Dashboard" />
                         </ListItemButton>
                     </ListItem>
@@ -189,7 +200,7 @@ export default function Sidebar2() {
                             onMouseEnter={(e) => handleMouseEnter(e, key)}
                         >
                             <ListItemButton>
-                                <ListItemIcon><InboxIcon /></ListItemIcon>
+                                <ListItemIcon>{menuIcons[key]}</ListItemIcon>
                                 <ListItemText primary={key.charAt(0).toUpperCase() + key.slice(1)} />
                                 <ChevronRightIcon />
                             </ListItemButton>
