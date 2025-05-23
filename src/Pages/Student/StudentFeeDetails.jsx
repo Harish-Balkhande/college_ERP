@@ -34,7 +34,7 @@ const ExpandMore = styled((props) => {
 
 const data = {
   studentInfo: {
-    name: "Tushar Kamlakar Petkar",
+    name: "Ram Swami",
     regNumber: "GHRUA23015280237",
     batch: "2023-2025",
     stream: "MCA - MCA - III",
