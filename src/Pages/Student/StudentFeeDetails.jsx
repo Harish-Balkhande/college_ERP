@@ -331,16 +331,16 @@ export default function StudentFeeDetails() {
       <Card variant="outlined">
         <CardContent>
           <Grid container spacing={5} sx={{ justifyContent: 'space-between' }}>
-            <Grid item xs={12} sm={4}>
+            <Grid sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}>
               <table>
                 <tbody>
                   <tr><td><strong>Name</strong></td><td>: {data.studentInfo.name}</td></tr>
-                  <tr><td><strong>Reg No</strong></td> <td>: {data.studentInfo.regNumber}</td></tr>
-                  <tr><td><strong>Batch</strong></td> <td>: {data.studentInfo.batch}</td></tr>
+                  <tr><td><strong>Reg No</strong></td><td>: {data.studentInfo.regNumber}</td></tr>
+                  <tr><td><strong>Batch</strong></td><td>: {data.studentInfo.batch}</td></tr>
                 </tbody>
               </table>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}>
               <table>
                 <tbody>
                   <tr><td><strong>Stream</strong></td><td>: {data.studentInfo.stream}</td></tr>
@@ -350,7 +350,7 @@ export default function StudentFeeDetails() {
               </table>
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid sx={{ gridColumn: { xs: 'span 12', sm: 'span 6' } }}>
               <table>
                 <tbody>
                   <tr><td><strong>Session</strong></td><td>: {data.studentInfo.session}</td></tr>
