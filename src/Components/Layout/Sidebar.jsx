@@ -4,9 +4,14 @@ import {
     Box, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar,
     List, CssBaseline, Typography, Divider, IconButton,
     ListItem, ListItemButton, ListItemIcon, ListItemText,
-    Paper
+    Paper,
+    Button,
+    Tooltip,
+    Avatar,
+    Menu,
+    MenuItem
 } from '@mui/material';
-
+import AdbIcon from '@mui/icons-material/Adb';
 import {
     Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
     Inbox as InboxIcon, School as SchoolIcon,
@@ -19,6 +24,8 @@ import { Link } from 'react-router-dom';
 import Layout from './Layout';
 
 const drawerWidth = 240;
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -85,6 +92,24 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Sidebar() {
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [hoveredMenu, setHoveredMenu] = React.useState(null);
@@ -104,12 +129,12 @@ export default function Sidebar() {
             { label: 'Faculty', to: '/faculty' },
         ],
         exam: [
-            { label: 'Exam Schedule',to: '/schedule' },
-            { label: 'Hall Ticket', to:'/hall-tickets' },
-            { label: 'Score Card', to:'/score-card' },
-            { label: 'Retest Exam Slip', to:'/retest-slip' },
-            { label: 'Exam Form', to:'/my-exam-form' },
-            { label: 'Download Exam Form', to:'/download-exam-form' },
+            { label: 'Exam Schedule', to: '/schedule' },
+            { label: 'Hall Ticket', to: '/hall-tickets' },
+            { label: 'Score Card', to: '/score-card' },
+            { label: 'Retest Exam Slip', to: '/retest-slip' },
+            { label: 'Exam Form', to: '/my-exam-form' },
+            { label: 'Download Exam Form', to: '/download-exam-form' },
         ],
         finance: [
             { label: 'Fee', to: '/student-fees-details' },
@@ -161,16 +186,77 @@ export default function Sidebar() {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton color="inherit" edge="start" sx={{ mr: 2 }}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Logo
-                    </Typography>
-                    
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {/* Left side: Logo and menu icon */}
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconButton color="inherit" edge="start" sx={{ mr: 2 }}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="#app-bar-with-responsive-menu"
+                            sx={{
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            LOGO
+                        </Typography>
+                    </Box>
+
+                    {/* Center: Navigation links */}
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page}
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white' }}
+                            >
+                                {page}
+                            </Button>
+                        ))}
+                    </Box>
+
+                    {/* Right side: User avatar */}
+                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography>Welcome (username here)</Typography>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
                 </Toolbar>
             </AppBar>
+
             <Drawer
                 variant="permanent"
                 open={open}
@@ -246,7 +332,7 @@ export default function Sidebar() {
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                
+
             </Box>
         </Box>
     );

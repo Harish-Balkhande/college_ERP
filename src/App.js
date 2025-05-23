@@ -24,10 +24,7 @@ import DownloadExamForm from './Pages/Student/Exam/DownloadExamForm';
 function App() {
   return (
     <Layout>
-      <div style={{
-        position:'absolute',
-        left: 80
-      }}>
+      <div >
         <Routes>
           <Route index path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />

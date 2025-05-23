@@ -12,13 +12,21 @@ import {
 export default function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
-    // handle login logic here
     console.log('Login submitted');
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
-      <Grid item xs={10} sm={6} md={4}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="flex-start"
+      sx={{
+        minHeight: '100vh', 
+        width: '100%',       
+        margin: 0,           
+      }}
+    >
+      <Grid item xs={11} sm={8} md={4}>
         <Paper elevation={3} sx={{ padding: 4, borderRadius: 2 }}>
           <Typography variant="h5" gutterBottom align="center">
             Login

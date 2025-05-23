@@ -1,7 +1,26 @@
 import { Box, FormControl, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+import { PieChart } from '@mui/x-charts/PieChart';
+
+const student_data = {
+    student_name: "Mr. Tushar Petkar",
+    reg_num: "GHRUA23015280237",
+    roll_no: "NG-MCA-D-37",
+    total_student: 122,
+    present_student: 86,
+    student_performance: "7.53 CGPA",
+    upcomming_classes: "",
+}
+const absent_student = student_data.total_student - student_data.present_student;
 
 export default function Dashboard() {
+    const [pieChartData, setPieChartData] = useState([
+        { id: 0, value: student_data.present_student, label: 'Present' },
+        { id: 1, value: absent_student, label: 'Absent' }
+    ]);
+
+
+
 
     const courseData = [
         {
@@ -63,9 +82,9 @@ export default function Dashboard() {
     ]
     return (
         <>
-            <Typography sx={{margin:'15px', fontSize:'24px', fontFamily:'serif'}}>Dashboard</Typography>
-            <Box sx={{ border: '1px solid gray', borderRadius:'10px', maxWidth: '95%', margin:'auto', padding: '12px' }}>
-                <Grid container spacing={3} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent:'space-evenly'}}>
+            <Typography sx={{ margin: '15px', fontSize: '24px', fontFamily: 'serif' }}>Dashboard</Typography>
+            <Box sx={{ border: '1px solid gray', borderRadius: '10px', maxWidth: '95%', margin: 'auto', padding: '12px' }}>
+                <Grid container spacing={3} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
                     <Grid item xs={12} sm={6} md={4} >
                         <Box
                             component="fieldset"
@@ -74,14 +93,14 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px'
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
@@ -90,7 +109,8 @@ export default function Dashboard() {
                             </Typography>
 
                             {/* Form contents go here */}
-                            <Typography><strong>Your Registration Number :</strong> 45464646</Typography>
+                            <p style={{ fontSize:"12px"}}><strong>Registration Number :</strong>{student_data.reg_num}</p>
+                            <p style={{fontSize:"12px"}}><strong>Roll Number :</strong>{student_data.roll_no}</p>
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
@@ -101,14 +121,14 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px'
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
@@ -116,9 +136,22 @@ export default function Dashboard() {
                                 Attendance
                             </Typography>
                             {/* Form contents go here */}
-
+                            <PieChart
+                                height={100}
+                                width={100}
+                                series={[
+                                    {
+                                        data: pieChartData,
+                                        innerRadius: 20,
+                                        outerRadius: 50,
+                                        arcLabel: (item) => `${item.value}`,
+                                    },
+                                ]}
+                            />
                         </Box>
                     </Grid>
+
+                    {/* Performance */}
                     <Grid item xs={12} sm={6} md={4}>
                         <Box
                             component="fieldset"
@@ -127,23 +160,25 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px',
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center"
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
                             >
                                 Performance
                             </Typography>
-
-                            {/* Form contents go here */}
-
+                            <Typography fontSize={32} color='#39d039'  ><strong>{student_data.student_performance
+                                }</strong></Typography>
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
@@ -154,14 +189,14 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px'
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
@@ -181,14 +216,14 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px'
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
@@ -208,14 +243,14 @@ export default function Dashboard() {
                                 borderRadius: 2,
                                 padding: 2,
                                 marginTop: 2,
-                                width: '200px',
-                                height: '100px'
+                                width: '300px',
+                                height: '150px'
                             }}
                         >
                             <Typography
                                 component="legend"
                                 sx={{
-                                    fontSize:'10px',
+                                    fontSize: '10px',
                                     fontWeight: 'bold',
                                     padding: '0 8px',
                                 }}
