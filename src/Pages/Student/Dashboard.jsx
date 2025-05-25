@@ -144,7 +144,7 @@ export default function Dashboard() {
                                         data: pieChartData,
                                         innerRadius: 20,
                                         outerRadius: 50,
-                                        arcLabel: (item) => `${item.value}`,
+                                        // arcLabel: (item) => `${item.value}`,
                                     },
                                 ]}
                             />

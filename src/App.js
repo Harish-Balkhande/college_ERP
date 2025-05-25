@@ -10,8 +10,6 @@ import Layout from './Components/Layout/Layout';
 import AttendanceUI from './Pages/Student/Attendanence';
 import StudentFeesDetails from './Pages/Student/StudentFeesDetails';
 import StudentInformation from './Pages/Student/StudentInformation';
-
-// import MyRegisteredCourses from '../src/Pages/Student/Exam//MyRegistretedCourses';
 import MyExamForm from './Pages/Student/Exam/MyExamForm';
 import ExamSchedule from './Pages/Student/Exam/ExamSchedule';
 import HallTickets from './Pages/Student/Exam/HallTickets';
@@ -21,10 +19,11 @@ import RetestSlip from './Pages/Student/Exam/RetestSlip';
 import DownloadExamForm from './Pages/Student/Exam/DownloadExamForm';
 
 
+
 function App() {
   return (
     <Layout>
-      <div >
+      
         <Routes>
           <Route index path='/' element={<Home />} />
           <Route path='/signup' element={<Signup />} />
@@ -45,7 +44,6 @@ function App() {
           {/* end of Exam-related routes */}
           <Route path='/student-fees-details' element={<StudentFeesDetails />} />
         </Routes>
-      </div>
     </Layout>
   );
 }
