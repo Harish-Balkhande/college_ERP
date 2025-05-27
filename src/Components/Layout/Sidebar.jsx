@@ -7,7 +7,7 @@ import {
   FaMoneyBillWave,
   FaBookOpen,
 } from "react-icons/fa";
-
+import { FaRegFileAlt } from "react-icons/fa";
 import "../../styles/sidebar.css"; // your CSS file path
 
 function Sidebar() {
@@ -107,6 +107,17 @@ function Sidebar() {
             <span className="triangle">{showFinanceSubmenu ? "▼" : "▶"}</span>
           </li>
 
+  
+           <li
+              className="menu-item bold"
+              onClick={() => {
+               closeAllSubmenus();
+               navigate("/leave-application");
+              }}
+>
+            <FaRegFileAlt className="icon" /> Leave Application
+          </li>
+
           {/* My Registered Courses */}
           <li
             className="menu-item bold"
@@ -117,6 +128,7 @@ function Sidebar() {
           >
             <FaBookOpen className="icon" /> My Registered Courses
           </li>
+
         </ul>
       </div>
 

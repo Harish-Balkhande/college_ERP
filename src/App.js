@@ -17,7 +17,7 @@ import RetestSlip from "./Pages/Exam/RetestSlip";
 import MyExamForm from "./Pages/Exam/MyExamForm";
 import DownloadExamForm from "./Pages/Exam/DownloadExamForm";
 import MyRegisteredCourses from './Pages/MyRegistretedCourses';
-
+import LeaveApplication from './Pages/LeaveApplication';
 function App() {
   return (
     <Routes>
@@ -47,6 +47,8 @@ function App() {
         <Route path="my-exam-form" element={<MyExamForm />} />
         <Route path="download-exam-form" element={<DownloadExamForm />} />
         <Route path="registered-courses" element={<MyRegisteredCourses />} />
+
+         <Route path="leave-application" element={<LeaveApplication />} />
       </Route>
     </Routes>
   );
