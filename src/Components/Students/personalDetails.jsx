@@ -1,166 +1,238 @@
-import React, { useState } from "react";
-import {
-    Box,
-    Grid,
-    TextField,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Typography
-} from "@mui/material";
+import { useState } from 'react';
+import '../../styles/student/admissionForm.css';
 
-const PersonalDetails = () => {
-    const [formData, setFormData] = useState({
-        title: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        mobile: "",
-        email: "",
-        dob: "",
-        maritalStatus: "",
-        bloodGroup: "",
-        gender: "",
-        occupation: "",
-        birthPlace: "",
-        nationality: "",
-        religion: "",
-        castCategory: "",
-        fatherName: "",
-        motherName: "",
-        differentlyAbled: ""
-    });
+// Utility: Converts camelCase to Title Case
+const formatPlaceholder = (key) =>
+  key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (str) => str.toUpperCase());
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+export default function PersonalDetails() {
+  const [isHavingDisability, setIsHavingDisability] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    mobile: '',
+    email: '',
+    dob: '',
+    maritalStatus: '',
+    bloodGroup: '',
+    gender: '',
+    occupation: '',
+    birthPlace: '',
+    nationality: '',
+    religion: '',
+    castCategory: '',
+    fatherName: '',
+    motherName: '',
+    differentlyAbled: '',
+    disabilityType: '',
+  });
 
-    return (
-        <Box sx={{ width: "80%", margin: "auto", mt: 5, p: 3 }}>
-            <Typography variant="h6">Personal Details</Typography>
-            <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {/* Title */}
-                <Grid item xs={12} sm={6} md={3} sx={{ minWidth: '80px' }} >
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Title</InputLabel>
-                        <Select name="title" value={formData.title} onChange={handleChange} >
-                            {["Mr.", "Miss", "Mrs.", "Dr."].map((option) => (
-                                <MenuItem key={option} value={option}>{option}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
+  const [fatherInfo, setFatherInfo] = useState({
+    title: '',
+    firstName: 'Kamlakar',
+    lastName: 'Petkar',
+    email: '',
+    mobile: '8380850505',
+    designation: '',
+    occupation: 'Farmer',
+    organizationName: '',
+    annualIncome: '₹ 45,000.00',
+  });
 
-                {/* Name Fields */}
-                {["firstName", "middleName", "lastName"].map((field, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={3}>
-                        <TextField
-                            fullWidth
-                            name={field}
-                            label={field.replace(/([A-Z])/g, " $1")}
-                            margin="normal"
-                            value={formData[field]}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                ))}
+  const [motherInfo, setMotherInfo] = useState({
+    title: '',
+    firstName: 'Snehal',
+    lastName: 'Petkar',
+    email: '',
+    mobile: '8380850505',
+    designation: '',
+    occupation: 'Housewife',
+    organizationName: '',
+    annualIncome: '',
+  });
 
-                {/* Mobile and Email */}
-                {["mobile", "email"].map((field, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={3}>
-                        <TextField
-                            fullWidth
-                            name={field}
-                            label={field.charAt(0).toUpperCase() + field.slice(1)}
-                            margin="normal"
-                            value={formData[field]}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                ))}
+  const [guardianInfo, setGuardianInfo] = useState({
+    title: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    mobile: '',
+    designation: '',
+    occupation: '',
+    organizationName: '',
+    annualIncome: '',
+    familyIncome: '',
+    relationshipWithStudent: '',
+  });
 
-                {/* Date of Birth */}
-                <Grid item xs={12} sm={6} md={3}>
-                    <TextField
-                        fullWidth
-                        name="dob"
-                        label="Date of Birth"
-                        type="date"
-                        InputLabelProps={{ shrink: true }}
-                        margin="normal"
-                        value={formData.dob}
-                        onChange={handleChange}
-                    />
-                </Grid>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-                {/* Dropdowns */}
-                {[
-                    { name: "maritalStatus", label: "Marital Status", options: ["Single", "Married", "Divorced", "Widowed", "Not Married"] },
-                    { name: "bloodGroup", label: "Blood Group", options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "Golden Blood"] },
-                    { name: "gender", label: "Gender", options: ["Male", "Female", "Other"] }
-                ].map((dropdown, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={3}>
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel>{dropdown.label}</InputLabel>
-                            <Select name={dropdown.name} value={formData[dropdown.name]} onChange={handleChange} sx={{ minWidth: "150px" }}>
-                                {dropdown.options.map((option) => (
-                                    <MenuItem key={option} value={option}>{option}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                ))}
+  const handleNestedChange = (setter) => (e) => {
+    const { name, value } = e.target;
+    setter((prev) => ({ ...prev, [name]: value }));
+  };
 
-                {/* Occupation, Birth Place, Nationality, Religion, Cast Category */}
-                {["occupation", "birthPlace", "nationality", "religion", "castCategory"].map((field, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={3}>
-                        <TextField
-                            fullWidth
-                            name={field}
-                            label={field.replace(/([A-Z])/g, " $1")}
-                            margin="normal"
-                            value={formData[field]}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-            {/* Parents' Details */}
-            <Typography variant="h6">Parent Details</Typography>
-            <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                {["fatherName", "motherName"].map((field, index) => (
-                    <Grid key={index} item xs={12} sm={6} md={3}>
-                        <TextField
-                            fullWidth
-                            name={field}
-                            label={field.replace(/([A-Z])/g, " $1")}
-                            margin="normal"
-                            value={formData[field]}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                ))}
+  return (
+    <div className="container">
+      <form>
+        <div className="form first">
+          <div className="details personal">
+            <span className="title">Personal Details</span>
 
-                {/* Differently Abled */}
-                <Grid item xs={12} sm={6} md={3}>
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Differently Abled</InputLabel>
-                        <Select
-                            name="differentlyAbled"
-                            value={formData.differentlyAbled}
-                            onChange={handleChange}
-                            sx={{ minWidth: "200px" }}
-                        >
-                            <MenuItem value="Yes">Yes</MenuItem>
-                            <MenuItem value="No">No</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-            </Grid>
-        </Box>
-    );
-};
+            <div className="fields">
+              <div className="input-field">
+                <select name="title" value={formData.title} onChange={handleChange}>
+                  {['select', 'Mr.', 'Mrs', 'Miss'].map((title) => (
+                    <option key={title} value={title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-export default PersonalDetails;
+              {['firstName', 'middleName', 'lastName', 'mobile', 'email', 'dob', 'birthPlace', 'nationality', 'religion', 'castCategory', 'occupation'].map((key) => (
+                <div className="input-field" key={key}>
+                  <input
+                    type={key === 'dob' ? 'date' : 'text'}
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+
+              <div className="input-field">
+                <select name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
+                  <option disabled value="">
+                    Marital Status
+                  </option>
+                  {['Single', 'Married', 'Unmarried', 'Widow', 'Divorced'].map((title) => (
+                    <option key={title} value={title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-field">
+                <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}>
+                  <option disabled value="">
+                    Blood Group
+                  </option>
+                  {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-', 'Golden blood'].map((bg) => (
+                    <option key={bg} value={bg}>
+                      {bg}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-field">
+                <select name="gender" value={formData.gender} onChange={handleChange}>
+                  <option disabled value="">
+                    Gender
+                  </option>
+                  {['Male', 'Female', 'Other'].map((gender) => (
+                    <option key={gender} value={gender}>
+                      {gender}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="input-field">
+                <select value={isHavingDisability} onChange={(e) => {
+                  setIsHavingDisability(e.target.value);
+                  setFormData((prev) => ({ ...prev, differentlyAbled: e.target.value }));
+                }}>
+                  <option disabled value="">
+                    Differently Abled
+                  </option>
+                  {['Yes', 'No'].map((title) => (
+                    <option key={title} value={title}>
+                      {title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {isHavingDisability === 'Yes' && (
+                <div className="input-field">
+                  <input
+                    type="text"
+                    name="disabilityType"
+                    value={formData.disabilityType}
+                    onChange={handleChange}
+                    placeholder="Mention Disability type"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Father's Details */}
+          <div className="details parents">
+            <span className="title">Father's Information</span>
+            <div className="fields">
+              {Object.entries(fatherInfo).map(([key, val]) => (
+                <div className="input-field" key={key}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handleNestedChange(setFatherInfo)}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mother's Details */}
+          <div className="details parents">
+            <span className="title">Mother's Information</span>
+            <div className="fields">
+              {Object.entries(motherInfo).map(([key, val]) => (
+                <div className="input-field" key={key}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handleNestedChange(setMotherInfo)}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Local Guardian Details */}
+          <div className="details parents">
+            <span className="title">Local Guardian Information</span>
+            <div className="fields">
+              {Object.entries(guardianInfo).map(([key, val]) => (
+                <div className="input-field" key={key}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handleNestedChange(setGuardianInfo)}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

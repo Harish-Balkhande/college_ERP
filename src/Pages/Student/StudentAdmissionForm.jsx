@@ -10,9 +10,11 @@ import {
 import PersonalDetails from '../../Components/Students/personalDetails';
 import AddressForm from '../../Components/Students/AddressForm';
 import EducationForm from '../../Components/Students/EducationForm';
+import CurrentCourse from '../../Components/Students/CurrentCourse';
+import CourseEnrollment from '../../Components/Students/CourseEnrollment';
 
 
-const steps = ['Personal Details', 'Address Details', 'Education'];
+const steps = ['Personal Details', 'Address Details', 'Education', 'Course Enrollment'];
 
 export default function StudentAdmissionForm() {
     const [activeStep, setActiveStep] = React.useState(0);
@@ -142,7 +144,14 @@ export default function StudentAdmissionForm() {
             case 1:
                 return <AddressForm />
             case 2:
-                return <EducationForm />             
+                return (
+                    <EducationForm
+                        formData={formData}
+                        handleChange={handleChange}
+                        handleAddEducation={handleAddEducation}
+                    />
+                );
+            case 3 : return <CourseEnrollment />
             default:
                 return 'Unknown Step';
         }
@@ -168,7 +177,7 @@ export default function StudentAdmissionForm() {
                         {renderStepContent()}
                         <Box sx={{ mt: 2 }}>
                             <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>Back</Button>
-                            <Button variant="contained" onClick={handleNext} sx={{float: 'right', marginRight: '5%'}}>
+                            <Button variant="contained" onClick={handleNext} sx={{ float: 'right', marginRight: '5%' }}>
                                 {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                             </Button>
                         </Box>

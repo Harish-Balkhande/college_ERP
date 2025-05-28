@@ -1,175 +1,114 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Grid,
-  MenuItem,
-} from '@mui/material';
+import '../../styles/student/admissionForm.css';
 
-const countries = ['India', 'USA', 'UK'];
-const states = ['Maharashtra', 'Karnataka', 'Delhi'];
+const formatPlaceholder = (key) =>
+  key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (str) => str.toUpperCase());
 
-function AddressForm() {
-  const [formData, setFormData] = useState({
-    permanentAddress: {
-      line1: '',
-      line2: '',
-      country: '',
-      state: '',
-      pincode: '',
-      city: '',
-    },
-    localAddress: {
-      sameAsPermanent: false,
-      line1: '',
-      line2: '',
-      country: '',
-      state: '',
-      pincode: '',
-      city: '',
-    },
-  });
+export default function AddressForm() {
+  const initialAddress = {
+    addressLine: 'At Post Sindhi(rly), Taluka Selu, Wardha',
+    cityTaluka: 'Sindhi',
+    district: 'Wardha',
+    state: 'Maharashtra',
+    country: 'India',
+    pinCode: '442105',
+  };
 
-  const handleChange = (e, section) => {
-    const { name, value, checked, type } = e.target;
+  const emptyAddress = {
+    addressLine: '',
+    cityTaluka: '',
+    district: '',
+    state: '',
+    country: '',
+    pinCode: '',
+  };
 
-    if (name === 'sameAsPermanent') {
-      const newLocal = checked
-        ? { ...formData.permanentAddress, sameAsPermanent: true }
-        : {
-            sameAsPermanent: false,
-            line1: '',
-            line2: '',
-            country: '',
-            state: '',
-            pincode: '',
-            city: '',
-          };
+  const [localAddress, setLocalAddress] = useState(initialAddress);
+  const [permanentAddress, setPermanentAddress] = useState(emptyAddress);
+  const [isSameAddress, setIsSameAddress] = useState(false);
 
-      setFormData((prev) => ({
-        ...prev,
-        localAddress: newLocal,
-      }));
+  const handleLocalChange = (e) => {
+    const { name, value } = e.target;
+    const updated = { ...localAddress, [name]: value };
+    setLocalAddress(updated);
+
+    // Update permanent address if checkbox is selected
+    if (isSameAddress) setPermanentAddress(updated);
+  };
+
+  const handlePermanentChange = (e) => {
+    const { name, value } = e.target;
+    setPermanentAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSameAddressToggle = (e) => {
+    const checked = e.target.checked;
+    setIsSameAddress(checked);
+    if (checked) {
+      setPermanentAddress(localAddress);
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [section]: {
-          ...prev[section],
-          [name]: type === 'checkbox' ? checked : value,
-        },
-      }));
+      setPermanentAddress(emptyAddress);
     }
   };
 
-  const sharedTextFieldProps = {
-    fullWidth: true,
-    margin: 'normal',
-  };
-
-  const renderAddressFields = (section) => (
-    <>
-      <TextField
-        label="Address Line 1"
-        name="line1"
-        value={formData[section].line1}
-        onChange={(e) => handleChange(e, section)}
-        {...sharedTextFieldProps}
-      />
-      <TextField
-        label="Address Line 2"
-        name="line2"
-        value={formData[section].line2}
-        onChange={(e) => handleChange(e, section)}
-        {...sharedTextFieldProps}
-      />
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} >
-          <TextField
-            select
-            label="Country"
-            name="country"
-            value={formData[section].country}
-            onChange={(e) => handleChange(e, section)}
-            {...sharedTextFieldProps}
-          >
-            {countries.map((country) => (
-              <MenuItem key={country} value={country}>
-                {country}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            select
-            label="State"
-            name="state"
-            value={formData[section].state}
-            onChange={(e) => handleChange(e, section)}
-            {...sharedTextFieldProps}
-          >
-            {states.map((state) => (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Pincode"
-            name="pincode"
-            type="number"
-            inputProps={{ maxLength: 6 }}
-            value={formData[section].pincode}
-            onChange={(e) => handleChange(e, section)}
-            {...sharedTextFieldProps}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="City/Village"
-            name="city"
-            value={formData[section].city}
-            onChange={(e) => handleChange(e, section)}
-            {...sharedTextFieldProps}
-          />
-        </Grid>
-      </Grid>
-    </>
-  );
-
   return (
-    <Box>
-      <Typography variant="h6" gutterBottom>
-        Residence / Permanent Address
-      </Typography>
-      {renderAddressFields('permanentAddress')}
+    <div className="container">
+      <form>
+        <div className="form">
+          {/* Local Address */}
+          <div className="details address">
+            <span className="title">Local Address</span>
+            <div className="fields">
+              {Object.entries(localAddress).map(([key, val]) => (
+                <div className="input-field" key={`local-${key}`}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handleLocalChange}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
-      <Typography variant="h6" sx={{ mt: 4 }}>
-        Correspondence / Local Address
-      </Typography>
+          {/* Checkbox for Address Match */}
+          <div className="address-checkbox" style={{ margin: '1rem 0' }}>
+            <label>
+              <input
+                type="checkbox"
+                checked={isSameAddress}
+                onChange={handleSameAddressToggle}
+              />
+              <span style={{ marginLeft: '8px' }}>
+                Permanent address is same as local address
+              </span>
+            </label>
+          </div>
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            name="sameAsPermanent"
-            checked={formData.localAddress.sameAsPermanent}
-            onChange={(e) => handleChange(e, 'localAddress')}
-          />
-        }
-        label="Same as Permanent Address"
-        sx={{ mb: 2 }}
-      />
-
-      {!formData.localAddress.sameAsPermanent && renderAddressFields('localAddress')}
-    </Box>
+          {/* Permanent Address */}
+          <div className="details address">
+            <span className="title">Permanent Address</span>
+            <div className="fields">
+              {Object.entries(permanentAddress).map(([key, val]) => (
+                <div className="input-field" key={`perm-${key}`}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handlePermanentChange}
+                    placeholder={formatPlaceholder(key)}
+                    disabled={isSameAddress}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
-
-export default AddressForm;

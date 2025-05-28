@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { PieChart } from '@mui/x-charts/PieChart';
 
@@ -12,15 +12,21 @@ const student_data = {
     upcomming_classes: "",
 }
 const absent_student = student_data.total_student - student_data.present_student;
+// #EAEBD0,F4E7E1, ECFAE5
+const colorPalette = {
+    background: '#F2F2F2',
+    sectionBackground: '#E8F9FF',
+    display: '#fff',
+    tableHead: { background: '#174D38', text: '#fff' },
+    tableBody:{col1:'#CBCBCB', col2:'#F2F2F2'},
+    text: 'black',
+}
 
 export default function Dashboard() {
     const [pieChartData, setPieChartData] = useState([
         { id: 0, value: student_data.present_student, label: 'Present' },
         { id: 1, value: absent_student, label: 'Absent' }
     ]);
-
-
-
 
     const courseData = [
         {
@@ -81,212 +87,219 @@ export default function Dashboard() {
 
     ]
     return (
-        <>
-            <Typography sx={{ margin: '15px', fontSize: '24px', fontFamily: 'serif' }}>Dashboard</Typography>
-            <Box sx={{ border: '1px solid gray', borderRadius: '10px', maxWidth: '95%', margin: 'auto', padding: '12px' }}>
-                <Grid container spacing={3} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-                    <Grid item xs={12} sm={6} md={4} >
-                        <Box
-                            component="fieldset"
+        <Box sx={{ backgroundColor: colorPalette.sectionBackground }}>
+            <Typography sx={{fontFamily:'Oswald', fontWeight:900, fontSize:'24px',margin:'20px'}}>Dashboard</Typography>
+
+            <Grid container spacing={1} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+                <Grid item xs={12} sm={12} md={4} >
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
                             sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px'
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
                             }}
                         >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Welcome
-                            </Typography>
+                            Welcome
+                        </Typography>
 
-                            {/* Form contents go here */}
-                            <p style={{ fontSize:"12px"}}><strong>Registration Number :</strong>{student_data.reg_num}</p>
-                            <p style={{fontSize:"12px"}}><strong>Roll Number :</strong>{student_data.roll_no}</p>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Box
-                            component="fieldset"
-                            sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px'
-                            }}
-                        >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Attendance
-                            </Typography>
-                            {/* Form contents go here */}
-                            <PieChart
-                                height={100}
-                                width={100}
-                                series={[
-                                    {
-                                        data: pieChartData,
-                                        innerRadius: 20,
-                                        outerRadius: 50,
-                                        // arcLabel: (item) => `${item.value}`,
-                                    },
-                                ]}
-                            />
-                        </Box>
-                    </Grid>
-
-                    {/* Performance */}
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Box
-                            component="fieldset"
-                            sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px',
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center"
-                            }}
-                        >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Performance
-                            </Typography>
-                            <Typography fontSize={32} color='#39d039'  ><strong>{student_data.student_performance
-                                }</strong></Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Box
-                            component="fieldset"
-                            sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px'
-                            }}
-                        >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Upcomming Classes
-                            </Typography>
-
-                            {/* Form contents go here */}
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Box
-                            component="fieldset"
-                            sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px'
-                            }}
-                        >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Recent Published Result
-                            </Typography>
-
-                            {/* Form contents go here */}
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Box
-                            component="fieldset"
-                            sx={{
-                                border: '1px solid rgba(0, 0, 0, 0.23)',
-                                borderRadius: 2,
-                                padding: 2,
-                                marginTop: 2,
-                                width: '300px',
-                                height: '150px'
-                            }}
-                        >
-                            <Typography
-                                component="legend"
-                                sx={{
-                                    fontSize: '10px',
-                                    fontWeight: 'bold',
-                                    padding: '0 8px',
-                                }}
-                            >
-                                Upcomming Exams
-                            </Typography>
-
-                            {/* Form contents go here */}
-
-                        </Box>
-                    </Grid>
+                        {/* Form contents go here */}
+                        <p style={{ fontSize: "12px" }}><strong>Registration Number :</strong>{student_data.reg_num}</p>
+                        <p style={{ fontSize: "12px" }}><strong>Roll Number :</strong>{student_data.roll_no}</p>
+                    </Paper>
                 </Grid>
-            </Box>
-            <Box mt={3}>
-                <Typography variant="h6" gutterBottom>
+                <Grid item xs={12} sm={12} md={4}>
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
+                            sx={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
+                            }}
+                        >
+                            Attendance
+                        </Typography>
+                        {/* Form contents go here */}
+                        <PieChart
+                            height={100}
+                            width={100}
+                            series={[
+                                {
+                                    data: pieChartData,
+                                    innerRadius: 20,
+                                    outerRadius: 50,
+                                    // arcLabel: (item) => `${item.value}`,
+                                },
+                            ]}
+                        />
+                    </Paper>
+                </Grid>
+
+                {/* Performance */}
+                <Grid item xs={12} sm={12} md={4}>
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
+                            sx={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
+                            }}
+                        >
+                            Performance
+                        </Typography>
+                        <Typography fontSize={32} color='#39d039'  ><strong>{student_data.student_performance
+                        }</strong></Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
+                            sx={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
+                            }}
+                        >
+                            Upcomming Classes
+                        </Typography>
+
+                        {/* Form contents go here */}
+
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
+                            sx={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
+                            }}
+                        >
+                            Recent Published Result
+                        </Typography>
+
+                        {/* Form contents go here */}
+
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                    <Paper elevation={3}
+                        component="fieldset"
+                        sx={{
+                            border: 'none',
+                            borderRadius: 2,
+                            padding: 2,
+                            marginTop: 2,
+                            width: '300px',
+                            height: '150px',
+                            backgroundColor: colorPalette.display
+                        }}
+                    >
+                        <Typography
+                            component="legend"
+                            sx={{
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                padding: '0 8px',
+                            }}
+                        >
+                            Upcomming Exams
+                        </Typography>
+
+                        {/* Form contents go here */}
+
+                    </Paper>
+                </Grid>
+            </Grid>
+
+            {/* Table */}
+            <Box mt={3} >
+                <Typography variant="h6" gutterBottom sx={{fontFamily:'Oswald', fontWeight:900, fontSize:'24px',margin:'20px'}} >
                     Course Components
                 </Typography>
                 <TableContainer component={Paper} >
                     <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell><strong>S.No.</strong></TableCell>
-                                <TableCell><strong>course code</strong></TableCell>
-                                <TableCell><strong>Course Name</strong></TableCell>
-                                <TableCell><strong>Register Category</strong></TableCell>
-                                <TableCell><strong>Component</strong></TableCell>
-                                <TableCell><strong>Credit</strong></TableCell>
-                                <TableCell><strong>Registration Type</strong></TableCell>
-                                <TableCell><strong>Faculty</strong></TableCell>
-                                <TableCell><strong>Attendance %</strong></TableCell>
-                                <TableCell><strong>Status</strong></TableCell>
+                        <TableHead >
+                            <TableRow sx={{backgroundColor: colorPalette.tableHead.background}}>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>S.No.</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>course code</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Course Name</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Register Category</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Component</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Credit</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Registration Type</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Faculty</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Attendance %</strong></TableCell>
+                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Status</strong></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {courseData.map((row, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} sx={{ backgroundColor: index % 2 === 0 ? colorPalette.tableBody.col1 : colorPalette.tableBody.col2}}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{row.code}</TableCell>
                                     <TableCell>{row.name}</TableCell>
@@ -303,6 +316,6 @@ export default function Dashboard() {
                     </Table>
                 </TableContainer>
             </Box>
-        </>
+        </Box>
     )
 }

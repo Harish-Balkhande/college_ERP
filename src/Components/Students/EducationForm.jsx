@@ -1,322 +1,101 @@
-// import React, { useState } from 'react';
-// import {
-//   Box,
-//   Button,
-//   FormControl,
-//   InputLabel,
-//   MenuItem,
-//   Paper,
-//   Select,
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   TextField,
-// } from '@mui/material';
+import React, { useState } from 'react';
+import '../../styles/student/admissionForm.css';
 
-// const StudentEducationForm = () => {
-//   const [formData, setFormData] = useState({
-//     currentEducation: {
-//       level: '',
-//       board: '',
-//       school: '',
-//       obtainedMarks: '',
-//       totalMarks: '',
-//       cgpa: '',
-//     },
-//     educationList: [],
-//   });
+const formatPlaceholder = (key) =>
+  key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, (str) => str.toUpperCase());
 
-//   const handleChange = (e, section) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [section]: {
-//         ...prev[section],
-//         [name]: value,
-//       },
-//     }));
-//   };
+export default function EducationForm() {
+  const [formData, setFormData] = useState({
+    examPassed: 'BCA',
+    boardUniversity: 'G H Raisoni University, Amravati',
+    instituteSchool: 'Ghru Amravati College',
+    rollNumber: '100',
+    passingYear: '2023',
+    resultType: 'Percentage',
+    percentage: '7.4 %',
+    stream: '',
+    medium: '',
+    mode: '',
+    gapReason: '',
+    gapYear: '',
+    resultStatus: '',
+    rank: '',
+    degreeName: '',
+    branchName: '',
+    duration: '',
+    discipline: '',
+    examScheme: '',
+    enrollmentNumber: '',
+    markObtained: '',
+    outOfMarked: '',
+  });
 
-//   const handleAddEducation = () => {
-//     setFormData((prev) => ({
-//       ...prev,
-//       educationList: [...prev.educationList, prev.currentEducation],
-//       currentEducation: {
-//         level: '',
-//         board: '',
-//         school: '',
-//         obtainedMarks: '',
-//         totalMarks: '',
-//         cgpa: '',
-//       },
-//     }));
-//   };
+  const [documents, setDocuments] = useState({
+    xeroxDegreeMarksheet: null,
+    degreeMarksheet: null,
+  });
 
-//   return (
-//     <Box>
-//       <FormControl margin="normal">
-//         <InputLabel>Highest Education</InputLabel>
-//         <Select
-//           name="level"
-//           size='small'
-//           value={formData.currentEducation.level}
-//           onChange={(e) => handleChange(e, 'currentEducation')}
-//         >
-//           <MenuItem value="SSC">SSC</MenuItem>
-//           <MenuItem value="HSC">HSC</MenuItem>
-//           <MenuItem value="UG">UG</MenuItem>
-//           <MenuItem value="PG">PG</MenuItem>
-//         </Select>
-//       </FormControl>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-//       <TextField
-//         size='small'
-//         name="board"
-//         label="Board/University"
-//         margin="normal"
-//         variant='outlined'
-        
-//         // sx={{
-//         //   '& .MuiInputBase-root': {
-//         //     height: 30, // height of the whole input wrapper
-//         //   },
-//         //   '& .MuiInputBase-input': {
-//         //     padding: '0px 14px', // internal input padding
-//         //   },
-//         //   '& label': {
-//         //     fontSize: '0.875rem',
-//         //     height: 30,
-//         //     lineHeight: '30px',
-//         //     top: '-15px',              // Align label vertically (may need tweaking)
-//         //   },
-//         //   '& label.MuiInputLabel-shrink': {
-//         //     top: 0,                  // When label is floating
-//         //   }
-//         // }}
-//         value={formData.currentEducation.board}
-//         onChange={(e) => handleChange(e, 'currentEducation')}
-//       />
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files.length > 0) {
+      setDocuments((prev) => ({ ...prev, [name]: files[0] }));
+    }
+  };
 
-//       <TextField
-//         size='small'
-//         name="school"
-//         label="School/College"
-//         margin="normal"
-//         value={formData.currentEducation.school}
-//         onChange={(e) => handleChange(e, 'currentEducation')}
-//       />
-
-//       <TextField
-//         size='small'
-//         name="obtainedMarks"
-//         label="Obtained Marks"
-//         margin="normal"
-//         value={formData.currentEducation.obtainedMarks}
-//         onChange={(e) => handleChange(e, 'currentEducation')}
-//       />
-
-//       <TextField
-//         size='small'
-//         name="totalMarks"
-//         label="Total Marks"
-//         margin="normal"
-//         value={formData.currentEducation.totalMarks}
-//         onChange={(e) => handleChange(e, 'currentEducation')}
-//       />
-
-//       <TextField
-//         size='small'
-//         name="cgpa"
-//         label="CGPA"
-//         margin="normal"
-//         value={formData.currentEducation.cgpa}
-//         onChange={(e) => handleChange(e, 'currentEducation')}
-//       />
-
-//       <Button variant="outlined" onClick={handleAddEducation} sx={{ mt: 2 }}>
-//         Add Education
-//       </Button>
-
-//       <TableContainer component={Paper} sx={{ mt: 3 }}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>Level</TableCell>
-//               <TableCell>Board</TableCell>
-//               <TableCell>School</TableCell>
-//               <TableCell>Marks</TableCell>
-//               <TableCell>CGPA</TableCell>
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {formData.educationList.map((edu, index) => (
-//               <TableRow key={index}>
-//                 <TableCell>{edu.level}</TableCell>
-//                 <TableCell>{edu.board}</TableCell>
-//                 <TableCell>{edu.school}</TableCell>
-//                 <TableCell>{edu.obtainedMarks}/{edu.totalMarks}</TableCell>
-//                 <TableCell>{edu.cgpa}</TableCell>
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//     </Box>
-//   );
-// };
-
-// export default StudentEducationForm;
-
-
-import {
-  Box,
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody
-} from '@mui/material';
-
-function EducationForm({ formData, handleChange, handleAddEducation }) {
   return (
-    <Box sx={{ p: 2 }}>
-      <Grid container spacing={2}>
-        {/* Highest Education */}
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth size="small" margin="normal">
-            <InputLabel>Highest Education</InputLabel>
-            <Select
-              name="level"
-              value={formData.currentEducation.level}
-              onChange={(e) => handleChange(e, 'currentEducation')}
-              label="Highest Education"
-            >
-              <MenuItem value="SSC">SSC</MenuItem>
-              <MenuItem value="HSC">HSC</MenuItem>
-              <MenuItem value="UG">UG</MenuItem>
-              <MenuItem value="PG">PG</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+    <div className="container">
+      <form>
+        <div className="form">
+          {/* Educational Qualification Section */}
+          <div className="details education">
+            <span className="title">Educational Qualification</span>
+            <div className="fields">
+              {Object.entries(formData).map(([key, val]) => (
+                <div className="input-field" key={key}>
+                  <input
+                    type="text"
+                    name={key}
+                    value={val}
+                    onChange={handleChange}
+                    placeholder={formatPlaceholder(key)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
-        {/* Board/University */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            name="board"
-            label="Board/University"
-            margin="normal"
-            value={formData.currentEducation.board}
-            onChange={(e) => handleChange(e, 'currentEducation')}
-          />
-        </Grid>
-
-        {/* School/College */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            name="school"
-            label="School/College"
-            margin="normal"
-            value={formData.currentEducation.school}
-            onChange={(e) => handleChange(e, 'currentEducation')}
-          />
-        </Grid>
-
-        {/* Obtained Marks */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            name="obtainedMarks"
-            label="Obtained Marks"
-            margin="normal"
-            value={formData.currentEducation.obtainedMarks}
-            onChange={(e) => handleChange(e, 'currentEducation')}
-          />
-        </Grid>
-
-        {/* Total Marks */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            name="totalMarks"
-            label="Total Marks"
-            margin="normal"
-            value={formData.currentEducation.totalMarks}
-            onChange={(e) => handleChange(e, 'currentEducation')}
-          />
-        </Grid>
-
-        {/* CGPA */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            name="cgpa"
-            label="CGPA"
-            margin="normal"
-            value={formData.currentEducation.cgpa}
-            onChange={(e) => handleChange(e, 'currentEducation')}
-          />
-        </Grid>
-
-        {/* Add Button */}
-        <Grid item xs={12}>
-          <Button
-            variant="outlined"
-            onClick={handleAddEducation}
-            sx={{ mt: 1 }}
-          >
-            Add Education
-          </Button>
-        </Grid>
-      </Grid>
-
-      {/* Table Display */}
-      <TableContainer component={Paper} sx={{ mt: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Level</TableCell>
-              <TableCell>Board</TableCell>
-              <TableCell>School</TableCell>
-              <TableCell>Marks</TableCell>
-              <TableCell>CGPA</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {formData.educationList.map((edu, index) => (
-              <TableRow key={index}>
-                <TableCell>{edu.level}</TableCell>
-                <TableCell>{edu.board}</TableCell>
-                <TableCell>{edu.school}</TableCell>
-                <TableCell>
-                  {edu.obtainedMarks}/{edu.totalMarks}
-                </TableCell>
-                <TableCell>{edu.cgpa}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+          {/* Documents Upload Section */}
+          <div className="details documents">
+            <span className="title">Documents</span>
+            <div className="fields">
+              {Object.entries(documents).map(([key, file]) => (
+                <div className="input-field" key={key}>
+                  <label style={{ display: 'block', marginBottom: '4px' }}>
+                    {formatPlaceholder(key)}
+                  </label>
+                  <input
+                    type="file"
+                    name={key}
+                    onChange={handleFileChange}
+                  />
+                  {file && (
+                    <small style={{ display: 'block', marginTop: '4px' }}>
+                      Selected: {file.name}
+                    </small>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
-
-export default EducationForm;
