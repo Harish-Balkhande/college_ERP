@@ -1,45 +1,71 @@
-/* Parent container */
-#signup {
-    display: flex;
-    justify-content: center;
-    align-items: start;     /* Center vertically if you want */
-    width: 100%;
-    height: 100vh;           /* Full height of viewport */
-    flex-wrap: wrap;         /* Allow wrapping on small screens */
-    gap: 20px;               /* Space between items */
-    /* background-color: #f9f9f9; Optional background */
-  }
-  
-  /* Individual login types */
-  .login-type {
-    width: 8em;
-    height: 7em;
-    margin-top: 1.5em;
-    color: white;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-type Button{
-    width: 100%;
-    height: 100%;
-    border: 2px solid greenyellow;
-    color: black;
-    font-weight: 800;
-  }
+.signup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* background: linear-gradient(to bottom right, #2a5058, #0083b0, #bbd2da); */
+  background-image: linear-gradient(to top left, #30cfd0 0%, #330867 100%);
+  padding: 1rem;
+}
 
-  .login-type Button:hover{
-    background-color: greenyellow;
-  }
+.signup-card {
+  background-color: rgba(250, 250, 250, 0.3);
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.signup-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.error{
+  color: red;
+}
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input{
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  outline: none;
+}
+
+ .signup-card form .push-button{
+  padding: 8px 10px;
+  min-width: 30%;
+  width: 40%;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(45, 223, 45);
+  box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 1px;
+  display: block;
+  margin: 0 auto;
+}
+
+.signup-card form .push-button:hover {
+  box-shadow: 5px 5px 7px rgba(237, 232, 232, 0.6);
+  color: #fff;
   
-  /* Responsive: Stack vertically on narrow screens */
-  @media (max-width: 600px) {
-    .login-type {
-      width: 80%;
-      font-size: 1rem;
-    }
-  }
-  
+}
+.signup-card form .push-button:active {
+  transform: translateY(4px); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}

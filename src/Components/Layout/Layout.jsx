@@ -20,6 +20,7 @@ import {
 } from '@mui/icons-material';
 
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -97,6 +98,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Layout({children}) {
+    const auth = useSelector((state) => state.auth);
+    const {fullName, email } = auth;
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -234,7 +237,10 @@ export default function Layout({children}) {
 
                     {/* Right side: User avatar */}
                     <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Typography>Welcome (username here)</Typography>
+                        <Box>
+                            <Typography>Welcome</Typography>
+                            <Typography>{fullName}</Typography>
+                        </Box>
                         <Tooltip title="Open settings">
                             <IconButton sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

@@ -1,0 +1,36 @@
+.exam-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f9f9f9;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.exam-heading {
+  margin-bottom: 20px;
+  color: teal;
+  text-align: center;
+}
+
+.exam-tabs {
+  margin-bottom: 20px;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  font-size: 16px;
+}
+
+.tab-button.active {
+  border-bottom: 3px solid teal;
+  color: teal;
+  font-weight: bold;
+}
+
