@@ -18,6 +18,15 @@ import MyExamForm from "./Pages/Exam/MyExamForm";
 import DownloadExamForm from "./Pages/Exam/DownloadExamForm";
 import MyRegisteredCourses from './Pages/MyRegistretedCourses';
 import LeaveApplication from './Pages/LeaveApplication';
+
+// Teacher pages (you must create these)
+import TeacherDashboard from './Pages/Teacher/TeacherDashboard';
+import TeacherAttendance from './Pages/Teacher/TeacherAttendance';
+import TeacherAdministration from './Pages/Teacher/TeacherAdministration';
+import TeacherExam from './Pages/Teacher/TeacherExam';
+import ManageQuestionSet from './Pages/Teacher/Exam/ManageQuestionSet';
+import FacultyAchievement from './Pages/Teacher/Administration/FacultyAchievement';
+
 function App() {
   return (
     <Routes>
@@ -48,8 +57,20 @@ function App() {
         <Route path="download-exam-form" element={<DownloadExamForm />} />
         <Route path="registered-courses" element={<MyRegisteredCourses />} />
 
-         <Route path="leave-application" element={<LeaveApplication />} />
+        <Route path="leave-application" element={<LeaveApplication />} />
       </Route>
+         
+        {/* Teacher layout in separate route */}
+       <Route path="/teacher" element={<Layout role="teacher" />}>
+       <Route path="dashboard" element={<TeacherDashboard />} />
+       <Route path="attendance" element={<TeacherAttendance />} />
+
+       <Route path="administration" element={<TeacherAdministration />} />
+       <Route path="/teacher/administration/faculty-achievement" element={<FacultyAchievement />} />
+
+       <Route path="exam" element={<TeacherExam />} />
+       <Route path="/teacher/exam/manage-question-set" element={<ManageQuestionSet />} />
+       </Route>
     </Routes>
   );
 }
