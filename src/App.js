@@ -23,10 +23,18 @@ import LeaveApplication from './Pages/LeaveApplication';
 import TeacherDashboard from './Pages/Teacher/TeacherDashboard';
 import TeacherAttendance from './Pages/Teacher/TeacherAttendance';
 import TeacherAdministration from './Pages/Teacher/TeacherAdministration';
+
 import TeacherExam from './Pages/Teacher/TeacherExam';
 import ManageQuestionSet from './Pages/Teacher/Exam/ManageQuestionSet';
-import FacultyAchievement from './Pages/Teacher/Administration/FacultyAchievement';
+import EnterMarks from './Pages/Teacher/Exam/EnterMarks';
+import PublishMarks from './Pages/Teacher/Exam/PublishMarks';
 
+import FacultyAchievement from './Pages/Teacher/Administration/FacultyAchievement';
+import GenericReport from './Pages/Teacher/Exam/GenericReports';
+
+import CourseAttainment from './Pages/Teacher/Course/CourseAttainment' ;
+import TeachingPlan from './Pages/Teacher/Course/TeachingPlan';
+import StudentProgression from './Pages/Teacher/Exam/StudentProgression';
 function App() {
   return (
     <Routes>
@@ -70,6 +78,12 @@ function App() {
 
        <Route path="exam" element={<TeacherExam />} />
        <Route path="/teacher/exam/manage-question-set" element={<ManageQuestionSet />} />
+       <Route path="/teacher/exam/enter-marks" element={<EnterMarks/>} />
+       <Route path="/teacher/exam/mark-publish" element={<PublishMarks/>} />
+       <Route path="/teacher/exam/generic-reports" element={<GenericReport/>} />
+       <Route path="/teacher/exam/student-progress" element={<StudentProgression/>} />
+       <Route path="/teacher/courses/course-attainment" element={<CourseAttainment/>} />
+       <Route path="/teacher/courses/teaching-plan" element={<TeachingPlan/>} />
        </Route>
     </Routes>
   );
