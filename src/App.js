@@ -19,22 +19,42 @@ import DownloadExamForm from "./Pages/Exam/DownloadExamForm";
 import MyRegisteredCourses from './Pages/MyRegistretedCourses';
 import LeaveApplication from './Pages/LeaveApplication';
 
-// Teacher pages (you must create these)
+// Teacher pages
 import TeacherDashboard from './Pages/Teacher/TeacherDashboard';
 import TeacherAttendance from './Pages/Teacher/TeacherAttendance';
 import TeacherAdministration from './Pages/Teacher/TeacherAdministration';
 
+//teacher exam
 import TeacherExam from './Pages/Teacher/TeacherExam';
 import ManageQuestionSet from './Pages/Teacher/Exam/ManageQuestionSet';
 import EnterMarks from './Pages/Teacher/Exam/EnterMarks';
 import PublishMarks from './Pages/Teacher/Exam/PublishMarks';
-
-import FacultyAchievement from './Pages/Teacher/Administration/FacultyAchievement';
 import GenericReport from './Pages/Teacher/Exam/GenericReports';
+import StudentProgression from './Pages/Teacher/Exam/StudentProgression';
 
+//administration
+import FacultyAchievement from './Pages/Teacher/Administration/FacultyAchievement';
+
+//teacher-course
+import ActivityLock from './Pages/Teacher/Course/ActivityLock';
+import CountReport from './Pages/Teacher/Course/CountReport';
+import ManageCourseVariant from './Pages/Teacher/Course/ManageCourseVariant';
+import EffectiveAndRegiDate from './Pages/Teacher/Course/EffectiveAndRegiDate';
+import ExtraLect from './Pages/Teacher/Course/ExtraLect';
+import CoGenericReport from './Pages/Teacher/Course/CoGenericReport';
+import LectTransfer from './Pages/Teacher/Course/LectTransfer';
+import MajorMinorRegi from './Pages/Teacher/Course/MajorMinorRegi';
+import ManageCourse from './Pages/Teacher/Course/ManageCourse';
+import ManageDetainedStud from './Pages/Teacher/Course/ManageDetainedStud';
+import MyTransferedLect from './Pages/Teacher/Course/MyTransferedLect';
+import OfferCourse from './Pages/Teacher/Course/OfferCourse';
+import TeachingPlanReport from './Pages/Teacher/Course/TeachingPlanReport';
+import UpdateRegistration from './Pages/Teacher/Course/UpdateRegistration';
 import CourseAttainment from './Pages/Teacher/Course/CourseAttainment' ;
 import TeachingPlan from './Pages/Teacher/Course/TeachingPlan';
-import StudentProgression from './Pages/Teacher/Exam/StudentProgression';
+import MyCourseVariant from './Pages/Teacher/Course/MyCourseVariant';
+
+
 function App() {
   return (
     <Routes>
@@ -82,8 +102,25 @@ function App() {
        <Route path="/teacher/exam/mark-publish" element={<PublishMarks/>} />
        <Route path="/teacher/exam/generic-reports" element={<GenericReport/>} />
        <Route path="/teacher/exam/student-progress" element={<StudentProgression/>} />
+
+       <Route path="/teacher/courses/activity-lock" element={<ActivityLock/>} />
+       <Route path="/teacher/courses/count-report" element={<CountReport/>} />
+       <Route path="/teacher/courses/course-variant" element={<ManageCourseVariant/>} />
+       <Route path="/teacher/courses/effective-regi-date" element={<EffectiveAndRegiDate/>} />
+       <Route path="/teacher/courses/extra-lect" element={<ExtraLect/>} />
+       <Route path="/teacher/courses/co-generic-reports" element={<CoGenericReport/>} />
+       <Route path="/teacher/courses/lect-transfer" element={<LectTransfer/>} />
+       <Route path="/teacher/courses/major-minor-reg" element={<MajorMinorRegi/>} />
+       <Route path="/teacher/courses/manage-course" element={<ManageCourse/>} />
+       <Route path="/teacher/courses/manage-detained-stud" element={<ManageDetainedStud/>} />
+       <Route path="/teacher/courses/my-transfer-lect" element={<MyTransferedLect/>} />
+       <Route path="/teacher/courses/offer-course" element={<OfferCourse/>} />
+       <Route path="/teacher/courses/teaching-plan-report" element={<TeachingPlanReport/>} />
+       <Route path="/teacher/courses/reg-update" element={<UpdateRegistration/>} />
+       <Route path="/teacher/courses/my-course-variant" element={<MyCourseVariant/>} />
        <Route path="/teacher/courses/course-attainment" element={<CourseAttainment/>} />
        <Route path="/teacher/courses/teaching-plan" element={<TeachingPlan/>} />
+
        </Route>
     </Routes>
   );

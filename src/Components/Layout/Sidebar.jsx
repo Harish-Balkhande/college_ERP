@@ -313,12 +313,6 @@ function Sidebar() {
       {role === "teacher" && showCourseMasterSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/evaluation-scheme")}>
-              Evaluation Scheme
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-component")}>
-              Course Component
-            </li>
             <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-evaluation-level")}>
               Course Evaluation Level
             </li>
@@ -372,7 +366,7 @@ function Sidebar() {
                 setShowTeacherAdmissionReportsSubmenu(!showTeacherAdmissionReportsSubmenu);
               }}
             >
-              Attendance Reports
+              Admission Reports
               <span className="triangle">{showTeacherAdmissionReportsSubmenu ? "▼" : "▶"}</span>
             </li>
             {showTeacherAdmissionReportsSubmenu && (
@@ -411,6 +405,15 @@ function Sidebar() {
       </li>
       <li className="submenu-item" onClick={() => navigate("/teacher/admission/cancel-admission")}>
         Cancel Admission
+      </li>
+      <li className="submenu-item" onClick={() => navigate("/teacher/admission/identity-card")}>
+        Identity Card
+      </li>
+      <li className="submenu-item" onClick={() => navigate("/teacher/admission/admission-slip")}>
+        Student Admission Slip
+      </li>
+      <li className="submenu-item" onClick={() => navigate("/teacher/admission/admissionform")}>
+        Student Admission Form
       </li>
     </ul>
   </div>
@@ -454,24 +457,7 @@ function Sidebar() {
       {role === "teacher" && showTeacherCoursesSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/course-attainment")}>
-              Course Attainment
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/teaching-plan")}>
-              Teaching Plan
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-course-variant")}>
-              My Course Variant
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-transferred-lectures")}>
-              My Transferred Lectures
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/lecture-transfer")}>
-              Lecture Transfer
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/extra-lectures")}>
-              Extra Lectures
-            </li>
+
             <li 
               className="submenu-item has-submenu" 
               onClick={(e) => {
@@ -486,12 +472,66 @@ function Sidebar() {
             {showCourseReportsSubmenu && (
               <div className="nested-submenu">
                 <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/reports/teaching-plan-report")}>
+                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/co-generic-reports")}>
+                    Generic Reports
+                  </li>
+                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/count-report")}>
+                    Course Wise Count Report
+                  </li>
+                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/teaching-plan-report")}>
                     Teaching Plan Report
                   </li>
                 </ul>
               </div>
             )}
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-course")}>
+              Manage Course
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/offer-course")}>
+              Offer Course
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/course-variant")}>
+              Manage Course Variant
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/course-attainment")}>
+              Course Attainment
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/offer-course")}>
+              Search Offered Course
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/activity-lock")}>
+              Course Activity Locking
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/reg-update")}>
+              Update Course Registration
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/effective-regi-date")}>
+              Manage Course Effective and Registration Date
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/major-minor-reg")}>
+              Manage Student Academic Major/Minor Registration
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/teaching-plan")}>
+              Teaching Plan
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-course-variant")}>
+              My Course Variant
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-transfer-lect")}>
+              My Transferred Lectures
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/lect-transfer")}>
+              Lecture Transfer
+            </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/extra-lect")}>
+              Extra Lectures
+            </li>
+             <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-detained-stud")}>
+              Manage Detained Students
+            </li>
+           
+            
+        
           </ul>
         </div>
       )}
