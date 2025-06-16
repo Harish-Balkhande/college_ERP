@@ -529,6 +529,9 @@ function Sidebar() {
              <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-detained-stud")}>
               Manage Detained Students
             </li>
+            <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-detained-stud")}>
+              Manage Detained Students
+            </li>
            
             
         

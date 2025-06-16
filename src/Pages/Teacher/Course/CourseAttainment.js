@@ -38,9 +38,9 @@ const CourseAttainment = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Course Attainment
-      </Typography>
+      <Typography variant="h5" fontWeight={700} gutterBottom>
+              Course Attainment
+            </Typography>
 
       <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
         <Typography variant="h6" gutterBottom>
@@ -54,7 +54,7 @@ const CourseAttainment = () => {
           flexWrap: 'wrap'
         }}>
           {/* Academic Session */}
-          <FormControl sx={{ minWidth: 200, flex: 1 }} required>
+          <FormControl sx={{ minWidth: 150, flex: 1 }} required>
             <InputLabel id="academic-session-label">
               Academic Session <span style={{ color: 'red' }}>*</span>
             </InputLabel>
@@ -93,7 +93,7 @@ const CourseAttainment = () => {
           {/* Component and Search Button container */}
           <Box sx={{ display: 'flex', flex: 1, minWidth: 'fit-content' }}>
             {/* Component */}
-            <FormControl sx={{ flex: 1, minWidth: 200 }} required>
+            <FormControl sx={{ flex: 1, minWidth: 150 }} required>
               <InputLabel id="component-label">
                 Component <span style={{ color: 'red' }}>*</span>
               </InputLabel>

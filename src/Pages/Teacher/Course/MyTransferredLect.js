@@ -13,21 +13,9 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-const LectTransfer = () => {
+const MyTransferredLect = () => {
   const [academicSession, setAcademicSession] = useState('');
   const [lectureDate, setLectureDate] = useState('');
-
-const handleChange = (field) => (event) => {
-  setFilters({ ...filters, [field]: event.target.value });
-};
-
-const labelStyles = {
-  '& .MuiInputLabel-asterisk': {
-    color: 'red'
-  }
-};
-
-const [filters, setFilters] = useState({ course: '' });
 
 const handleDownload = () => {
   // Your search or download logic here
@@ -38,7 +26,7 @@ const handleDownload = () => {
     <Box p={3}>
       {/* Page Header */}
       <Typography variant="h5" fontWeight={700} mb={2}>
-        Lectures Transfer
+        My Transferred Lectures
       </Typography>
 
       {/* Search Box */}
@@ -73,20 +61,6 @@ const handleDownload = () => {
             </FormControl>
           </Grid>
 
-        {/* Faculty Field */}
-  <Grid item xs={12} sm={6} md={3}>
-    <TextField
-      fullWidth
-      required
-      label="Faculty *"
-      placeholder="Use Faculty name/** all"
-      value={filters.course}
-      onChange={handleChange('course')}
-      sx={{ minWidth: '250px' }}
-      InputLabelProps={{ sx: labelStyles }}
-    />
-  </Grid>
-
           <Grid item xs={12} sm={6} md={3}>
             <TextField
               fullWidth
@@ -107,7 +81,6 @@ const handleDownload = () => {
       color: 'white',
       width: 150,
       height: 55,
-      
       '&:hover': {
         backgroundColor: 'green'
       }
@@ -125,4 +98,4 @@ const handleDownload = () => {
   );
 };
 
-export default LectTransfer;
+export default MyTransferredLect;

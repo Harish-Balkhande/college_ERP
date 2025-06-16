@@ -46,7 +46,7 @@ import LectTransfer from './Pages/Teacher/Course/LectTransfer';
 import MajorMinorRegi from './Pages/Teacher/Course/MajorMinorRegi';
 import ManageCourse from './Pages/Teacher/Course/ManageCourse';
 import ManageDetainedStud from './Pages/Teacher/Course/ManageDetainedStud';
-import MyTransferedLect from './Pages/Teacher/Course/MyTransferedLect';
+import MyTransferredLect from './Pages/Teacher/Course/MyTransferredLect';
 import OfferCourse from './Pages/Teacher/Course/OfferCourse';
 import TeachingPlanReport from './Pages/Teacher/Course/TeachingPlanReport';
 import UpdateRegistration from './Pages/Teacher/Course/UpdateRegistration';
@@ -113,7 +113,7 @@ function App() {
        <Route path="/teacher/courses/major-minor-reg" element={<MajorMinorRegi/>} />
        <Route path="/teacher/courses/manage-course" element={<ManageCourse/>} />
        <Route path="/teacher/courses/manage-detained-stud" element={<ManageDetainedStud/>} />
-       <Route path="/teacher/courses/my-transfer-lect" element={<MyTransferedLect/>} />
+       <Route path="/teacher/courses/my-transfer-lect" element={<MyTransferredLect/>} />
        <Route path="/teacher/courses/offer-course" element={<OfferCourse/>} />
        <Route path="/teacher/courses/teaching-plan-report" element={<TeachingPlanReport/>} />
        <Route path="/teacher/courses/reg-update" element={<UpdateRegistration/>} />
