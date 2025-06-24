@@ -435,7 +435,7 @@ function Sidebar() {
             {showTeacherAttendanceReportsSubmenu && (
               <div className="nested-submenu">
                 <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/attendance/reports/generic")}>
+                  <li className="submenu-item" onClick={() => navigate("/teacher/attendance/generic-report")}>
                     Generic Reports
                   </li>
                 </ul>

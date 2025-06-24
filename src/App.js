@@ -53,6 +53,10 @@ import UpdateRegistration from './Pages/Teacher/Course/UpdateRegistration';
 import CourseAttainment from './Pages/Teacher/Course/CourseAttainment' ;
 import TeachingPlan from './Pages/Teacher/Course/TeachingPlan';
 import MyCourseVariant from './Pages/Teacher/Course/MyCourseVariant';
+import ViewCourseComponentAttendance from './Pages/Teacher/Attendance/ViewCourseComponentAttendance';
+import MyCalendar from './Pages/Teacher/Attendance/MyCalendar';
+import MyLectures from './Pages/Teacher/Attendance/MyLectures';
+import AtteGenericReport from './Pages/Teacher/Attendance/AtteGenericReport';
 
 
 function App() {
@@ -121,6 +125,10 @@ function App() {
        <Route path="/teacher/courses/course-attainment" element={<CourseAttainment/>} />
        <Route path="/teacher/courses/teaching-plan" element={<TeachingPlan/>} />
 
+       <Route path="/teacher/attendance/view-course-component" element={<ViewCourseComponentAttendance/>}></Route>
+       <Route path="/teacher/attendance/my-calendar" element={<MyCalendar/>}></Route>
+       <Route path="/teacher/attendance/my-lectures" element={<MyLectures/>}></Route>
+       <Route path="/teacher/attendance/generic-report" element={<AtteGenericReport/>}></Route>
        </Route>
     </Routes>
   );
