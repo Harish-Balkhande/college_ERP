@@ -100,3 +100,7 @@ form .address-checkbox{
 form .address-checkbox input{
     padding: 5px;
 }
+.required-star {
+  color: red;
+  margin-left: 4px;
+}

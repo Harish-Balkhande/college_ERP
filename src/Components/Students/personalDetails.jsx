@@ -1,237 +1,194 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import '../../styles/student/admissionForm.css';
 
-// Utility: Converts camelCase to Title Case
-const formatPlaceholder = (key) =>
-  key
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, (str) => str.toUpperCase());
+const formatPlaceholder = key =>
+  key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+
+const isRequired = key => ![
+  'identityMark',
+  'registrationNumber',
+  'universityNumber',
+  'applicationNumber',
+  'rollNumber',
+  'alternateMobile',
+  'instituteEmail'
+].includes(key);
 
 export default function PersonalDetails() {
-  const [isHavingDisability, setIsHavingDisability] = useState('');
-  const [formData, setFormData] = useState({
-    title: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    mobile: '',
-    email: '',
-    dob: '',
+  const { fullName, email, accessToken } = useSelector(state => state.auth);
+
+  const initialForm = {
     maritalStatus: '',
-    bloodGroup: '',
-    gender: '',
-    occupation: '',
-    birthPlace: '',
-    nationality: '',
-    religion: '',
-    castCategory: '',
+    instituteEmail: '',
+    mobile: '',
+    alternateMobile: '',
     fatherName: '',
     motherName: '',
+    nationality: '',
+    religion: '',
+    caste: '',
+    casteCategory: '',
+    abcId: '',
+    antiRaggingId: '',
+    registrationNumber: '',
+    universityNumber: '',
+    applicationNumber: '',
+    rollNumber: '',
+    birthPlace: '',
+    birthState: '',
     differentlyAbled: '',
-    disabilityType: '',
-  });
-
-  const [fatherInfo, setFatherInfo] = useState({
-    title: '',
-    firstName: 'Kamlakar',
-    lastName: 'Petkar',
-    email: '',
-    mobile: '8380850505',
-    designation: '',
-    occupation: 'Farmer',
-    organizationName: '',
-    annualIncome: '₹ 45,000.00',
-  });
-
-  const [motherInfo, setMotherInfo] = useState({
-    title: '',
-    firstName: 'Snehal',
-    lastName: 'Petkar',
-    email: '',
-    mobile: '8380850505',
-    designation: '',
-    occupation: 'Housewife',
-    organizationName: '',
-    annualIncome: '',
-  });
-
-  const [guardianInfo, setGuardianInfo] = useState({
-    title: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobile: '',
-    designation: '',
-    occupation: '',
-    organizationName: '',
-    annualIncome: '',
-    familyIncome: '',
-    relationshipWithStudent: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    disabilityDetails: '',
+    bloodGroup: '',
+    identityMark: '',
+    domicileCountry: '',
+    domicileState: '',
+    motherTongue: '',
+    citizenshipCategory: '',
   };
 
-  const handleNestedChange = (setter) => (e) => {
+  const [formData, setFormData] = useState(initialForm);
+  const [isExisting, setIsExisting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({ message: '', success: false });
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_ROOT_URL}/api/students/get-basic-information`, {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    })
+      .then(res => {
+        if (res.data && Object.keys(res.data).length) {
+          setFormData(res.data);
+          setIsExisting(true);
+          setIsEditing(false);
+        } else {
+          setIsEditing(true);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setIsEditing(true);
+      });
+  }, [accessToken]);
+
+  const handleChange = e => {
     const { name, value } = e.target;
-    setter((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const url = isExisting
+      ? `${process.env.REACT_APP_ROOT_URL}/api/students/update-basic-information`
+      : `${process.env.REACT_APP_ROOT_URL}/api/students/save-basic-information`;
+    const method = isExisting ? 'put' : 'post';
+
+    try {
+      const res = await axios[method](url, formData, {
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` }
+      });
+      setResponseMessage({ message: res.data.message, success: res.data.successStatus });
+      setIsExisting(true);
+      setIsEditing(false);
+    } catch {
+      setResponseMessage({ message: 'Failed to save information.', success: false });
+    }
+  };
+
+  const Section = ({ title, fields }) => (
+    <section className="section">
+      <h2>{title}</h2>
+      <div className="fields">
+        {fields.map(key => (
+          <div className="input-field" key={key}>
+            <label>
+              {formatPlaceholder(key)} {isRequired(key) && <span className="required-star">*</span>}
+            </label>
+            {key === 'maritalStatus' || key === 'differentlyAbled' ? (
+              <select
+                name={key}
+                value={formData[key]}
+                onChange={handleChange}
+                required={isRequired(key)}
+              >
+                <option value="">Select</option>
+                {(key === 'maritalStatus'
+                  ? ['Single', 'Married', 'Divorced', 'Widowed', 'Separated']
+                  : ['Yes', 'No']
+                ).map(option => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+
+            ) : (
+              <input
+                type={key.includes('email') ? 'email' : 'text'}
+                name={key}
+                value={formData[key]}
+                disabled={key === 'registrationNumber'}
+                required={isRequired(key)}
+                onChange={handleChange}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+
+  if (isExisting && !isEditing) {
+    return (
+      <div className="container">
+        <div className="form-section">
+          <h2>Personal Details</h2>
+          <p><strong>Name:</strong> {fullName}</p>
+          <p><strong>Email:</strong> {email}</p>
+          {Object.entries(formData).map(([k, v]) => (
+            <p key={k}><strong>{formatPlaceholder(k)}:</strong> {v || '--'}</p>
+          ))}
+          <button onClick={() => setIsEditing(true)}>Edit</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
-      <form>
-        <div className="form first">
-          <div className="details personal">
-            <span className="title">Personal Details</span>
+      <form className="form-section" onSubmit={handleSubmit}>
+        <h2>Personal Details</h2>
+        <p><strong>Name:</strong> {fullName}</p>
+        <p><strong>Email:</strong> {email}</p>
 
-            <div className="fields">
-              <div className="input-field">
-                <select name="title" value={formData.title} onChange={handleChange}>
-                  {['select', 'Mr.', 'Mrs', 'Miss'].map((title) => (
-                    <option key={title} value={title}>
-                      {title}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        <Section title="Basic Information" fields={[
+          'maritalStatus', 'instituteEmail', 'mobile', 'alternateMobile', 'fatherName', 'motherName'
+        ]} />
 
-              {['firstName', 'middleName', 'lastName', 'mobile', 'email', 'dob', 'birthPlace', 'nationality', 'religion', 'castCategory', 'occupation'].map((key) => (
-                <div className="input-field" key={key}>
-                  <input
-                    type={key === 'dob' ? 'date' : 'text'}
-                    name={key}
-                    value={formData[key]}
-                    onChange={handleChange}
-                    placeholder={formatPlaceholder(key)}
-                  />
-                </div>
-              ))}
+        <Section title="Other Information" fields={[
+          'nationality', 'religion', 'caste', 'casteCategory', 'abcId', 'antiRaggingId'
+        ]} />
 
-              <div className="input-field">
-                <select name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
-                  <option disabled value="">
-                    Marital Status
-                  </option>
-                  {['Single', 'Married', 'Unmarried', 'Widow', 'Divorced'].map((title) => (
-                    <option key={title} value={title}>
-                      {title}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        <Section title="Admin Information" fields={[
+          'registrationNumber', 'universityNumber', 'applicationNumber', 'rollNumber'
+        ]} />
 
-              <div className="input-field">
-                <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}>
-                  <option disabled value="">
-                    Blood Group
-                  </option>
-                  {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-', 'Golden blood'].map((bg) => (
-                    <option key={bg} value={bg}>
-                      {bg}
-                    </option>
-                  ))}
-                </select>
-              </div>
+        <Section title="Personal Info" fields={[
+          'birthPlace', 'birthState', 'differentlyAbled', 'disabilityDetails', 'bloodGroup',
+          'identityMark', 'domicileCountry', 'domicileState', 'motherTongue', 'citizenshipCategory'
+        ]} />
 
-              <div className="input-field">
-                <select name="gender" value={formData.gender} onChange={handleChange}>
-                  <option disabled value="">
-                    Gender
-                  </option>
-                  {['Male', 'Female', 'Other'].map((gender) => (
-                    <option key={gender} value={gender}>
-                      {gender}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="input-field">
-                <select value={isHavingDisability} onChange={(e) => {
-                  setIsHavingDisability(e.target.value);
-                  setFormData((prev) => ({ ...prev, differentlyAbled: e.target.value }));
-                }}>
-                  <option disabled value="">
-                    Differently Abled
-                  </option>
-                  {['Yes', 'No'].map((title) => (
-                    <option key={title} value={title}>
-                      {title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {isHavingDisability === 'Yes' && (
-                <div className="input-field">
-                  <input
-                    type="text"
-                    name="disabilityType"
-                    value={formData.disabilityType}
-                    onChange={handleChange}
-                    placeholder="Mention Disability type"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Father's Details */}
-          <div className="details parents">
-            <span className="title">Father's Information</span>
-            <div className="fields">
-              {Object.entries(fatherInfo).map(([key, val]) => (
-                <div className="input-field" key={key}>
-                  <input
-                    type="text"
-                    name={key}
-                    value={val}
-                    onChange={handleNestedChange(setFatherInfo)}
-                    placeholder={formatPlaceholder(key)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mother's Details */}
-          <div className="details parents">
-            <span className="title">Mother's Information</span>
-            <div className="fields">
-              {Object.entries(motherInfo).map(([key, val]) => (
-                <div className="input-field" key={key}>
-                  <input
-                    type="text"
-                    name={key}
-                    value={val}
-                    onChange={handleNestedChange(setMotherInfo)}
-                    placeholder={formatPlaceholder(key)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Local Guardian Details */}
-          <div className="details parents">
-            <span className="title">Local Guardian Information</span>
-            <div className="fields">
-              {Object.entries(guardianInfo).map(([key, val]) => (
-                <div className="input-field" key={key}>
-                  <input
-                    type="text"
-                    name={key}
-                    value={val}
-                    onChange={handleNestedChange(setGuardianInfo)}
-                    placeholder={formatPlaceholder(key)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="form-actions">
+          <button type="submit">{isExisting ? 'Update' : 'Save'}</button>
         </div>
+
+        {responseMessage.message && (
+          <div style={{
+            color: responseMessage.success ? 'green' : 'red',
+            marginTop: '1rem'
+          }}>
+            {responseMessage.message}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,21 +1,17 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {
     Box, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar,
     List, CssBaseline, Typography, Divider, IconButton,
     ListItem, ListItemButton, ListItemIcon, ListItemText,
-    Button,
-    Tooltip,
-    Avatar,
-    Menu,
-    MenuItem
+    Button, Tooltip, Avatar, Menu, MenuItem
 } from '@mui/material';
 
 import {
     Menu as MenuIcon, ChevronLeft as ChevronLeftIcon,
-    School as SchoolIcon,
-    CalendarToday as CalendarTodayIcon, Book as BookIcon,
-    Assignment as AssignmentIcon, AccountBalanceWallet as AccountBalanceWalletIcon,
+    School as SchoolIcon, CalendarToday as CalendarTodayIcon,
+    Book as BookIcon, Assignment as AssignmentIcon,
+    AccountBalanceWallet as AccountBalanceWalletIcon,
     Dashboard as DashboardIcon, ChevronRight as ChevronRightIcon
 } from '@mui/icons-material';
 
@@ -24,14 +20,19 @@ import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = [
+  { label: 'Profile', path: '/profile' },
+  { label: 'Account', path: '/account' },
+  { label: 'Dashboard', path: '/dashboard' },
+  { label: 'Logout', path: '/logout' }
+];
 
 
 const colorPalette = {
     sidebar: { background: '#4D1717', icon: '#fff', text: '#fff' },
     navbar: { background: 'whitesmoke', icon: 'black', text: 'black' },
-    submenubar: { background: 'blanchedalmond', text: "black" }
-}
+    submenubar: { background: 'blanchedalmond', text: 'black' },
+};
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -94,45 +95,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             ...closedMixin(theme),
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
-    }),
+    })
 );
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
     const auth = useSelector((state) => state.auth);
-    const {fullName, email } = auth;
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const { fullName, isAuthenticated } = auth;
+
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-    // const handleOpenNavMenu = (event) => {
-    //     setAnchorElNav(event.currentTarget);
-    // };
-    // const handleOpenUserMenu = (event) => {
-    //     setAnchorElUser(event.currentTarget);
-    // };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [hoveredMenu, setHoveredMenu] = React.useState(null);
     const drawerRef = React.useRef(null);
     const submenuRef = React.useRef(null);
-    const [drawerReady, setDrawerReady] = React.useState(false);
+    const closeTimerRef = React.useRef(null);
 
     const submenuItems = {
-
-        admission: [
-            { label: 'Student Information', to: '/student-information' },
-        ],
-        attendance: [
-            { label: 'My Attendance', to: '/attendence' },
-        ],
+        admission: [{ label: 'Student Information', to: '/student-information' }],
+        attendance: [{ label: 'My Attendance', to: '/attendence' }],
         course: [
             { label: 'Admission Form', to: '/admission-form' },
             { label: 'Faculty', to: '/faculty' },
@@ -161,45 +140,56 @@ export default function Layout({children}) {
         finance: <AccountBalanceWalletIcon />,
     };
 
-    const handleClickOutside = (event) => {
-        if (
-            (!drawerRef.current || !drawerRef.current.contains(event.target)) &&
-            (!submenuRef.current || !submenuRef.current.contains(event.target))
-        ) {
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const startCloseTimer = () => {
+        closeTimerRef.current = setTimeout(() => {
             setOpen(false);
             setHoveredMenu(null);
-        }
+        }, 300);
     };
 
-    React.useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    const cancelCloseTimer = () => {
+        clearTimeout(closeTimerRef.current);
+    };
 
-    const handleMouseEnter = (event, key) => {
-        setOpen(true);
-        setDrawerReady(false);
-        setTimeout(() => {
-            setDrawerReady(true);
-            if (submenuItems[key]) {
+    const handleMouseEnterMenu = (key = null) => {
+    cancelCloseTimer();
+
+    if (!open) {
+        setOpen(true); // Open main menu tray
+        if (key) {
+            // Delay submenu open until drawer transition finishes
+            setTimeout(() => {
                 setHoveredMenu(key);
-            } else {
-                setHoveredMenu(null);
-            }
-        }, 200);
-    };
+            }, 225); // Match the transition duration
+        } else {
+            setHoveredMenu(null);
+        }
+    } else {
+        setHoveredMenu(key || null);
+    }
+};
 
-    const handleMouseLeave = () => {
-        setHoveredMenu(null);
-    };
 
     return (
-        // <ThemeProvider theme={themeCustom}>
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: colorPalette.navbar.background, color: colorPalette.navbar.text }}>
-                    {/* Left side: Logo and menu icon */}
+                <Toolbar
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        backgroundColor: colorPalette.navbar.background,
+                        color: colorPalette.navbar.text,
+                    }}
+                >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton color="inherit" edge="start" sx={{ mr: 2 }}>
                             <MenuIcon />
@@ -208,7 +198,7 @@ export default function Layout({children}) {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="#app-bar-with-responsive-menu"
+                            href="#"
                             sx={{
                                 display: { xs: 'none', md: 'flex' },
                                 fontFamily: 'monospace',
@@ -222,63 +212,59 @@ export default function Layout({children}) {
                         </Typography>
                     </Box>
 
-                    {/* Center: Navigation links */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
                         {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white' }}
-                            >
+                            <Button key={page} sx={{ my: 2, color: 'white' }}>
                                 {page}
                             </Button>
                         ))}
                     </Box>
 
-                    {/* Right side: User avatar */}
                     <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Box>
-                            <Typography>Welcome</Typography>
-                            <Typography>{fullName}</Typography>
-                        </Box>
+                        {isAuthenticated && (
+                            <Box>
+                                <Typography>Welcome</Typography>
+                                <Typography>{fullName}</Typography>
+                            </Box>
+                        )}
+
                         <Tooltip title="Open settings">
-                            <IconButton sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="User Avatar" />
                             </IconButton>
                         </Tooltip>
                         <Menu
-
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                                <MenuItem
+                                    key={setting.label}
+                                    component={Link}
+                                    to={setting.path}
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography textAlign="center">{setting.label}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
+
                     </Box>
                 </Toolbar>
             </AppBar>
 
-            {/* Sidebar */}
             <Drawer
                 variant="permanent"
                 open={open}
-                onMouseEnter={() => setOpen(true)}
                 ref={drawerRef}
+                onMouseEnter={cancelCloseTimer}
+                onMouseLeave={startCloseTimer}
                 slotProps={{
                     paper: {
                         sx: {
@@ -289,7 +275,7 @@ export default function Layout({children}) {
                 }}
             >
                 <DrawerHeader>
-                    <IconButton onClick={() => setOpen(false)}>
+                    <IconButton>
                         <ChevronLeftIcon />
                     </IconButton>
                 </DrawerHeader>
@@ -299,9 +285,11 @@ export default function Layout({children}) {
                         <ListItemButton
                             component={Link}
                             to="/student-dashboard"
-                            onMouseEnter={(e) => handleMouseEnter(e, null)}
+                            onMouseEnter={() => handleMouseEnterMenu(null)}
                         >
-                            <ListItemIcon sx={{ color: colorPalette.sidebar.icon }}><DashboardIcon /></ListItemIcon>
+                            <ListItemIcon sx={{ color: colorPalette.sidebar.icon }}>
+                                <DashboardIcon />
+                            </ListItemIcon>
                             <ListItemText primary="Dashboard" sx={{ color: colorPalette.sidebar.text }} />
                         </ListItemButton>
                     </ListItem>
@@ -310,10 +298,12 @@ export default function Layout({children}) {
                             key={key}
                             disablePadding
                             sx={{ display: 'block' }}
-                            onMouseEnter={(e) => handleMouseEnter(e, key)}
+                            onMouseEnter={() => handleMouseEnterMenu(key)}
                         >
                             <ListItemButton>
-                                <ListItemIcon sx={{ color: colorPalette.sidebar.icon }}>{menuIcons[key]}</ListItemIcon>
+                                <ListItemIcon sx={{ color: colorPalette.sidebar.icon }}>
+                                    {menuIcons[key]}
+                                </ListItemIcon>
                                 <ListItemText primary={key.charAt(0).toUpperCase() + key.slice(1)} />
                                 <ChevronRightIcon />
                             </ListItemButton>
@@ -322,11 +312,11 @@ export default function Layout({children}) {
                 </List>
             </Drawer>
 
-            {hoveredMenu && drawerReady && (
+            {hoveredMenu && (
                 <Box
                     ref={submenuRef}
-                    onMouseEnter={() => setHoveredMenu(hoveredMenu)}
-                    onMouseLeave={handleMouseLeave}
+                    onMouseEnter={cancelCloseTimer}
+                    onMouseLeave={startCloseTimer}
                     sx={{
                         position: 'fixed',
                         top: 0,
@@ -336,18 +326,16 @@ export default function Layout({children}) {
                         width: drawerWidth,
                         height: '100vh',
                         backgroundColor: colorPalette.submenubar.background,
-                        // backgroundColor: theme.palette.background.paper,
                         boxShadow: 3,
-                        transition: 'opacity 0.3s ease',
                         zIndex: 1300,
                     }}
                 >
-                    <List component="div" disablePadding >
+                    <List disablePadding>
                         {submenuItems[hoveredMenu].map((item, index) => (
                             <ListItemButton
                                 key={index}
-                                component={item.to ? Link : 'div'}
-                                to={item.to || undefined}
+                                component={Link}
+                                to={item.to}
                                 sx={{ color: colorPalette.submenubar.text }}
                             >
                                 <ListItemText primary={item.label} />
@@ -359,9 +347,8 @@ export default function Layout({children}) {
 
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                {children} {/* <-- your actual page will be rendered here */}
+                {children}
             </Box>
         </Box>
     );
-
 }

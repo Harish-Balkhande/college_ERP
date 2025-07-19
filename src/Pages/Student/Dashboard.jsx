@@ -1,6 +1,10 @@
 import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PieChart } from '@mui/x-charts/PieChart';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginInfo } from '../../GlobalStore/features/authSlice';
+import { useRef } from 'react';
 
 const student_data = {
     student_name: "Mr. Tushar Petkar",
@@ -18,16 +22,21 @@ const colorPalette = {
     sectionBackground: '#E8F9FF',
     display: '#fff',
     tableHead: { background: '#174D38', text: '#fff' },
-    tableBody:{col1:'#CBCBCB', col2:'#F2F2F2'},
+    tableBody: { col1: '#CBCBCB', col2: '#F2F2F2' },
     text: 'black',
 }
 
 export default function Dashboard() {
+    // const didRefresh = useRef(false);
+    // const dispatch = useDispatch();
+    const { fullName, email, role } = useSelector(state => state.auth);
+    // console.log("DASHboard", fullName,email,role);
     const [pieChartData, setPieChartData] = useState([
         { id: 0, value: student_data.present_student, label: 'Present' },
         { id: 1, value: absent_student, label: 'Absent' }
     ]);
 
+   
     const courseData = [
         {
             code: '122',
@@ -88,7 +97,7 @@ export default function Dashboard() {
     ]
     return (
         <Box sx={{ backgroundColor: colorPalette.sectionBackground }}>
-            <Typography sx={{fontFamily:'Oswald', fontWeight:900, fontSize:'24px',margin:'20px'}}>Dashboard</Typography>
+            <Typography sx={{ fontFamily: 'Oswald', fontWeight: 900, fontSize: '24px', margin: '20px' }}>Dashboard</Typography>
 
             <Grid container spacing={1} sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
                 <Grid item xs={12} sm={12} md={4} >
@@ -278,28 +287,28 @@ export default function Dashboard() {
 
             {/* Table */}
             <Box mt={3} >
-                <Typography variant="h6" gutterBottom sx={{fontFamily:'Oswald', fontWeight:900, fontSize:'24px',margin:'20px'}} >
+                <Typography variant="h6" gutterBottom sx={{ fontFamily: 'Oswald', fontWeight: 900, fontSize: '24px', margin: '20px' }} >
                     Course Components
                 </Typography>
                 <TableContainer component={Paper} >
                     <Table>
                         <TableHead >
-                            <TableRow sx={{backgroundColor: colorPalette.tableHead.background}}>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>S.No.</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>course code</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Course Name</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Register Category</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Component</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Credit</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Registration Type</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Faculty</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Attendance %</strong></TableCell>
-                                <TableCell sx={{color: colorPalette.tableHead.text}}><strong>Status</strong></TableCell>
+                            <TableRow sx={{ backgroundColor: colorPalette.tableHead.background }}>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>S.No.</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>course code</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Course Name</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Register Category</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Component</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Credit</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Registration Type</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Faculty</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Attendance %</strong></TableCell>
+                                <TableCell sx={{ color: colorPalette.tableHead.text }}><strong>Status</strong></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {courseData.map((row, index) => (
-                                <TableRow key={index} sx={{ backgroundColor: index % 2 === 0 ? colorPalette.tableBody.col1 : colorPalette.tableBody.col2}}>
+                                <TableRow key={index} sx={{ backgroundColor: index % 2 === 0 ? colorPalette.tableBody.col1 : colorPalette.tableBody.col2 }}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{row.code}</TableCell>
                                     <TableCell>{row.name}</TableCell>

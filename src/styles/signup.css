@@ -38,11 +38,12 @@ label {
   color: #333;
 }
 
-.form-group input{
+.form-group input,
+.form-group select{
   width: 100%;
   padding: 6px 10px;
   border-radius: 8px;
-  outline: none;
+  border: none;
 }
 
  .signup-card form .push-button{

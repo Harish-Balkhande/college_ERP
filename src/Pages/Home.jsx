@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,15 +8,21 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
-import { login } from '../api/services/authService';
-import { useDispatch } from 'react-redux';
-import { loginInfo } from '../GlobalStore/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/services/authService';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginInfo } from '../GlobalStore/features/authSlice';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 
 export default function Home() {
+  const { accessToken, role, fullName } = useSelector(state => state.auth);
+  // console.log(accessToken, role, fullName);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from.pathname || "/student-dashboard";
+  // console.log("Home from : ",location);
   const [loginCredentials, setLoginCredentials] = useState({
     email: '',
     password: '',
@@ -27,6 +33,7 @@ export default function Home() {
     password: '',
     general: '',
   });
+
 
   const validate = () => {
     let tempErrors = { email: '', password: '' };
@@ -60,20 +67,17 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      try {
-        const response = await login(loginCredentials);
-        console.log("Resp:", response);
-        const { isAuthenticated, fullName, email, accessToken, message } = response.data;
 
-        if (isAuthenticated) {
-          dispatch(loginInfo({ fullName, email, accessToken, isAuthenticated }));
-          navigate("/admission-form");
-        }
+      try {
+        const response = await loginUser(loginCredentials);
+        // console.log("Login : ", response);
+        const { fullName, email, accessToken, role, user_id } = response?.data;
+        dispatch(loginInfo({ fullName, email, accessToken, role, user_id }));
+        navigate(from, {replace: true});
       } catch (error) {
-        console.log("ERR", error);
         setErrors(prev => ({
           ...prev,
-          general: error.message || 'An unexpected error occurred',
+          general: error.response?.data?.message || "An error occurred",
         }));
       }
     }
@@ -111,7 +115,7 @@ export default function Home() {
               helperText={errors.email}
               slotProps={{
                 helperText: {
-                  sx: { color: 'red' }, 
+                  sx: { color: 'red' },
                 },
               }}
               required

@@ -17,33 +17,48 @@ import ExamScore from './Pages/Student/Exam/ExamScore';
 import ScoreCard from './Pages/Student/Exam/ScoreCard';
 import RetestSlip from './Pages/Student/Exam/RetestSlip';
 import DownloadExamForm from './Pages/Student/Exam/DownloadExamForm';
-
+import ProtectedRoutes from './Components/Utility/ProtectedRoutes';
+import LogOut from './Pages/LogOut';
+// import PersistLogin from './Components/Utility/PersistLogin';
+import Unauthorized from './Pages/Unauthorized';
 
 
 function App() {
   return (
     <Layout>
-      
-        <Routes>
-          <Route index path='/' element={<Home />} />
-          <Route path='/signup' element={<Signup />} />
+      <Routes>
+        <Route index path='/' element={<Home />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/logout' element={<LogOut />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        {/* <Route element={<PersistLogin />} > */}
+        <Route element={<ProtectedRoutes allowedRoles={['ROLE_USER']} />} >
           <Route path='/admission-form' element={<StudentAdmissionForm />} />
-          {/* Students path */}
-          <Route path='/attendence' element={<AttendanceUI />} />
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={['ROLE_USER']} />} >
           <Route path='/student-dashboard' element={<Dashboard />} />
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={['ROLE_USER']} />} >
           <Route path='/student-information' element={<StudentInformation />} />
-          {/* Exam-related routes */}
-          <Route path="/schedule" element={<ExamSchedule />} />
-          <Route path="/hall-tickets" element={<HallTickets />} />
-          <Route path="/exam-score" element={<ExamScore />} />
-          <Route path="/score-card" element={<ScoreCard />} />
-          <Route path="/retest-slip" element={<RetestSlip />} />
-          <Route path="/my-exam-form" element={<MyExamForm />} />
-          <Route path="/download-exam-form" element={<DownloadExamForm />} />
-          {/* <Route path="/registered-courses" element={<MyRegisteredCourses />} /> */}
-          {/* end of Exam-related routes */}
-          <Route path='/student-fees-details' element={<StudentFeesDetails />} />
-        </Routes>
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={['ROLE_USER']} />} >
+          <Route path='/attendence' element={<AttendanceUI />} />
+        </Route>
+        {/* </Route> */}
+        {/* Students path */}
+        {/* Exam-related routes */}
+        <Route path="/schedule" element={<ExamSchedule />} />
+        <Route path="/hall-tickets" element={<HallTickets />} />
+        <Route path="/exam-score" element={<ExamScore />} />
+        <Route path="/score-card" element={<ScoreCard />} />
+        <Route path="/retest-slip" element={<RetestSlip />} />
+        <Route path="/my-exam-form" element={<MyExamForm />} />
+        <Route path="/download-exam-form" element={<DownloadExamForm />} />
+        {/* <Route path="/registered-courses" element={<MyRegisteredCourses />} /> */}
+        {/* end of Exam-related routes */}
+        <Route path='/student-fees-details' element={<StudentFeesDetails />} />
+      </Routes>
     </Layout>
   );
 }
