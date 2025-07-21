@@ -37,9 +37,8 @@ function Sidebar() {
   const [showTeacherExamSubmenu, setShowTeacherExamSubmenu] = useState(false);
   const [showTeacherExamReportsSubmenu, setShowTeacherExamReportsSubmenu] = useState(false);
   const [showTeacherNotificationSubmenu, setShowTeacherNotificationSubmenu] = useState(false);
-  const [showCourseMasterSubmenu, setShowCourseMasterSubmenu] = useState(false);
-  const [showTeacherAdmissionSubmenu, setShowTeacherAdmissionSubmenu] = useState(false); // New state for admission reports
-   const [showTeacherAdmissionReportsSubmenu, setShowTeacherAdmissionReportsSubmenu] = useState(false);
+ 
+ 
   const wrapperRef = useRef(null);
 
   const closeAllSubmenus = () => {
@@ -58,8 +57,8 @@ function Sidebar() {
     setShowTeacherExamSubmenu(false);
     setShowTeacherExamReportsSubmenu(false);
     setShowTeacherNotificationSubmenu(false);
-    setShowCourseMasterSubmenu(false);
-    setShowAdmissionSubmenu(false); // Close admission reports submenu
+   
+    
   };
 
   useEffect(() => {
@@ -158,21 +157,9 @@ function Sidebar() {
             </>
           )}
 
-          {/* Teacher Menu Items */}
+      
           {role === "teacher" && (
             <>
-              {/* Master */}
-              <li
-                className="menu-item"
-                onClick={() => {
-                  closeAllSubmenus();
-                  setShowCourseMasterSubmenu(!showCourseMasterSubmenu);
-                }}
-              >
-                <FaBookOpen className="icon" />Course Master
-                <span className="triangle">{showCourseMasterSubmenu ? "▼" : "▶"}</span>
-              </li>
-
               {/* Administration */}
               <li
                 className="menu-item"
@@ -186,18 +173,7 @@ function Sidebar() {
               </li>
 
 
-              {/* Admission  - NEW */}
-              <li
-                className="menu-item"
-                onClick={() => {
-                  closeAllSubmenus();
-                  setShowTeacherAdmissionSubmenu(!showTeacherAdmissionSubmenu);
-                }}
-              >
-                <FaFileAlt className="icon" /> Admission 
-                <span className="triangle">{showTeacherAdmissionSubmenu ? "▼" : "▶"}</span>
-              </li>
-
+              
               {/* Attendance */}
               <li
                 className="menu-item"
@@ -250,11 +226,25 @@ function Sidebar() {
         </ul>
       </div>
 
+      {role === "teacher" && showTeacherNotificationSubmenu && (
+  <div className="submenu">
+    <ul className="submenu-list">
+     <li className="submenu-item" onClick={() => {
+  closeAllSubmenus();
+  navigate("/teacher/notification/manage-notice");
+}}>
+  Manage Noticeboard
+</li>
+    </ul>
+  </div>
+)}
+
+
       {/* Student Submenus */}
       {role === "student" && showAdmissionSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("admission-form")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("admission-form");}}>
               Student Admission
             </li>
           </ul>
@@ -264,7 +254,7 @@ function Sidebar() {
       {role === "student" && showAttendanceSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("attendence")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus();navigate("attendence");}}>
               My Attendance
             </li>
           </ul>
@@ -274,25 +264,25 @@ function Sidebar() {
       {role === "student" && showExamSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/schedule")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus(); navigate("/schedule");}}>
               Exam Schedule
             </li>
-            <li className="submenu-item" onClick={() => navigate("/hall-tickets")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/hall-tickets");}}>
               My Hall Tickets
             </li>
-            <li className="submenu-item" onClick={() => navigate("/exam-score")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/exam-score");}}>
               Exam Score
             </li>
-            <li className="submenu-item" onClick={() => navigate("/score-card")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus(); navigate("/score-card");}}>
               Score Card
             </li>
-            <li className="submenu-item" onClick={() => navigate("/retest-slip")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/retest-slip");}}>
               My Retest Slip
             </li>
-            <li className="submenu-item" onClick={() => navigate("/my-exam-form")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/my-exam-form");}}>
               My Exam Form
             </li>
-            <li className="submenu-item" onClick={() => navigate("/download-exam-form")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/download-exam-form");}}>
               Download Exam Form
             </li>
           </ul>
@@ -302,52 +292,21 @@ function Sidebar() {
       {role === "student" && showFinanceSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/student-fee-details")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/student-fee-details");}}>
               Student Fee Details
             </li>
           </ul>
         </div>
       )}
 
-      {/* Teacher Submenus */}
-      {role === "teacher" && showCourseMasterSubmenu && (
-        <div className="submenu">
-          <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-evaluation-level")}>
-              Course Evaluation Level
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-evaluation-level-component")}>
-              Course Evaluation Level Component
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-elective-group")}>
-              Course Elective Group
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-category")}>
-              Course Category
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-category-group")}>
-              Course Category Group
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/scheme-course-plan")}>
-              Scheme Course Plan
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/course-type")}>
-              Course Type
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/program-outcome-master")}>
-              Program Outcome Master
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/course-master/program-specific-outcome-master")}>
-              Program Specific Outcome Master
-            </li>
-          </ul>
-        </div>
-      )}
+      
+
+     
 
       {role === "teacher" && showTeacherAdminSubmenu && (
         <div className="submenu">
           <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/teacher/administration/faculty-achievement")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/teacher/administration/faculty-achievement");}}>
               Faculty Achievement
             </li>
           </ul>
@@ -356,68 +315,7 @@ function Sidebar() {
 
      
 
-   {role === "teacher" && showTeacherAdmissionSubmenu && (
-        <div className="submenu">
-          <ul className="submenu-list">
-            <li 
-              className="submenu-item has-submenu" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowTeacherAdmissionReportsSubmenu(!showTeacherAdmissionReportsSubmenu);
-              }}
-            >
-              Admission Reports
-              <span className="triangle">{showTeacherAdmissionReportsSubmenu ? "▼" : "▶"}</span>
-            </li>
-            {showTeacherAdmissionReportsSubmenu && (
-              <div className="nested-submenu">
-                <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/admisiion/reports/generic")}>
-                    Generic Reports
-                  </li>
-                </ul>
-              </div>
-            )}
-
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/student-admission-record")}>
-        Student Admission Record
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/student-academic-record")}>
-        Student Academic Record
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/new-admission")}>
-        New Admission
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/class-section-allotment")}>
-        Class-Section Allotment
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/roll-no-allotment")}>
-        Roll No. Allotment
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/faculty-advisor-allotment")}>
-        Faculty Advisor Allotment
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/university-registration-allotment")}>
-        University Registration Number Allotment
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/allotted-students")}>
-        Allotted Students
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/cancel-admission")}>
-        Cancel Admission
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/identity-card")}>
-        Identity Card
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/admission-slip")}>
-        Student Admission Slip
-      </li>
-      <li className="submenu-item" onClick={() => navigate("/teacher/admission/admissionform")}>
-        Student Admission Form
-      </li>
-    </ul>
-  </div>
-)}
+   
 
       {role === "teacher" && showTeacherAttendanceSubmenu && (
         <div className="submenu">
@@ -435,19 +333,19 @@ function Sidebar() {
             {showTeacherAttendanceReportsSubmenu && (
               <div className="nested-submenu">
                 <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/attendance/generic-report")}>
+                  <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/teacher/attendance/generic-report");}}>
                     Generic Reports
                   </li>
                 </ul>
               </div>
             )}
-            <li className="submenu-item" onClick={() => navigate("/teacher/attendance/view-course-component")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/attendance/view-course-component");}}>
               View Course Component Attendance
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/attendance/my-calendar")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/attendance/my-calendar");}}>
               My Calendar
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/attendance/my-lectures")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/attendance/my-lectures");}}>
               My Lectures
             </li>
           </ul>
@@ -472,66 +370,34 @@ function Sidebar() {
             {showCourseReportsSubmenu && (
               <div className="nested-submenu">
                 <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/co-generic-reports")}>
-                    Generic Reports
-                  </li>
-                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/count-report")}>
-                    Course Wise Count Report
-                  </li>
-                  <li className="submenu-item" onClick={() => navigate("/teacher/courses/teaching-plan-report")}>
+                  
+                  <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/teacher/courses/teaching-plan-report");}}>
                     Teaching Plan Report
                   </li>
                 </ul>
               </div>
             )}
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-course")}>
-              Manage Course
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/offer-course")}>
-              Offer Course
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/course-variant")}>
-              Manage Course Variant
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/course-attainment")}>
+            
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/courses/course-attainment");}}>
               Course Attainment
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/offer-course")}>
-              Search Offered Course
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/activity-lock")}>
-              Course Activity Locking
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/reg-update")}>
-              Update Course Registration
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/effective-regi-date")}>
-              Manage Course Effective and Registration Date
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/major-minor-reg")}>
-              Manage Student Academic Major/Minor Registration
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/teaching-plan")}>
+            
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/teacher/courses/teaching-plan");}}>
               Teaching Plan
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-course-variant")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/courses/my-course-variant");}}>
               My Course Variant
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/my-transfer-lect")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/courses/my-transfer-lect");}}>
               My Transferred Lectures
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/lect-transfer")}>
+            <li className="submenu-item" onClick={() =>{ closeAllSubmenus(); navigate("/teacher/courses/lect-transfer");}}>
               Lecture Transfer
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/extra-lect")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/courses/extra-lect");}}>
               Extra Lectures
             </li>
-             <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-detained-stud")}>
-              Manage Detained Students
-            </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/courses/manage-detained-stud")}>
-              Manage Detained Students
-            </li>
+             
            
             
         
@@ -556,38 +422,28 @@ function Sidebar() {
             {showTeacherExamReportsSubmenu && (
               <div className="nested-submenu">
                 <ul className="submenu-list">
-                  <li className="submenu-item" onClick={() => navigate("/teacher/exam/generic-reports")}>
+                  <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/exam/generic-reports");}}>
                     Generic Reports
                   </li>
                 </ul>
               </div>
             )}
             
-            <li className="submenu-item" onClick={() => navigate("/teacher/exam/manage-question-set")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/exam/manage-question-set");}}>
               Manage Question Set
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/exam/enter-marks")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/exam/enter-marks");}}>
               Enter Marks
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/exam/mark-publish")}>
+            <li className="submenu-item" onClick={() => { closeAllSubmenus();navigate("/teacher/exam/mark-publish");}}>
               Publish Marks
             </li>
-            <li className="submenu-item" onClick={() => navigate("/teacher/exam/student-progress")}>
-              Student Progression
-            </li>
+            
           </ul>
         </div>
       )}
 
-      {role === "teacher" && showTeacherNotificationSubmenu && (
-        <div className="submenu">
-          <ul className="submenu-list">
-            <li className="submenu-item" onClick={() => navigate("/teacher/notification/manage-noticeboard")}>
-              Manage Noticeboard
-            </li>
-          </ul>
-        </div>
-      )}
+     
     </div>
   );
 }

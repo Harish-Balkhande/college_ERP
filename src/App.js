@@ -1,5 +1,7 @@
 // App.js
 import './App.css';
+import React, { useState } from 'react';
+
 import { Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Signup from './Pages/Signup';
@@ -59,7 +61,16 @@ import MyLectures from './Pages/Teacher/Attendance/MyLectures';
 import AtteGenericReport from './Pages/Teacher/Attendance/AtteGenericReport';
 
 
+import ManageNotice from './Pages/Teacher/Notification/ManageNotice';
+
+
+
+
 function App() {
+
+const [notices, setNotices] = useState([]);
+const [archivedNotices, setArchivedNotices] = useState([]);
+
   return (
     <Routes>
       {/* Layout Route */}
@@ -73,7 +84,8 @@ function App() {
 
         {/* Student routes */}
         <Route path="attendence" element={<AttendanceUI />} />
-        <Route path="student-dashboard" element={<Dashboard />} />
+        <Route path="student-dashboard" element={<Dashboard notices={notices} />} />
+
         {/* Finance */}
         <Route path="student-fee-details" element={<StudentFeeDetails />} />
 
@@ -129,6 +141,16 @@ function App() {
        <Route path="/teacher/attendance/my-calendar" element={<MyCalendar/>}></Route>
        <Route path="/teacher/attendance/my-lectures" element={<MyLectures/>}></Route>
        <Route path="/teacher/attendance/generic-report" element={<AtteGenericReport/>}></Route>
+
+       <Route path="/teacher/notification/manage-notice" element={
+  <ManageNotice
+    notices={notices}
+    setNotices={setNotices}
+    archivedNotices={archivedNotices}
+    setArchivedNotices={setArchivedNotices}
+  />
+} />
+
        </Route>
     </Routes>
   );
